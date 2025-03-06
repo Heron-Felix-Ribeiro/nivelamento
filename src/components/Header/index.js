@@ -6,18 +6,17 @@ export default function Header() {
 
 
     return (
-        <header className={style.header}>
+        <header className={`${style.header} bg-dark`}>
             <nav>
-            {/*<HeaderLink url="./">
+                <HeaderLink url="./">
                     Home
                 </HeaderLink>
                 <HeaderLink url="./transacoes">
                     Transações
                 </HeaderLink>
-                <HeaderLink url = "./tiposDespesa">
-                    Tipos de Despesa 
-                </HeaderLink>*/}
-                <h1> Ola </h1>
+                <HeaderLink url="./tiposDespesa">
+                    Despesas
+                </HeaderLink>
             </nav>
         </header>
     )

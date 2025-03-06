@@ -1,4 +1,4 @@
-import Footer from "../../Footer";
+import Footer from "../../components/Footer";
 
 export default function Transacoes () {
 
@@ -6,7 +6,7 @@ export default function Transacoes () {
         <div>
             <h1> Página de transações</h1>
 
-            <Footer/>
+            
         </div>
     ) 
 }
