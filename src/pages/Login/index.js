@@ -1,15 +1,17 @@
-import Footer from "../../components/Footer";
+
 
 export default function Login() {
 
     return (
-        <div>
-            <h1 className="container text-center fw-bold mt-3">Página de Login</h1>
-            <div className="md-6 sm-12 text-center">
-                <label className="md-6 m-1">Usuario: </label>
-                <input className="md-10 m-1"></input>
-                <label className="md-6 m-1">Senha: </label>
-                <input className="md-10 m-1"></input>
+        <div className="container md-6 bg-dark text-light">
+            <h1 className="text-center fw-bold mt-2">Login</h1>
+            <div className="container mt-5 bg-dark pb-5">
+
+                <label className="text-light">Usuario: </label>
+                <input className="form-control"></input>
+                <label className="text-light">Senha: </label>
+                <input className="form-control"></input>
+                <button className="btn btn-primary mt-2 col-md-2 text-center">Logar</button>
             </div>
         </div>
     )

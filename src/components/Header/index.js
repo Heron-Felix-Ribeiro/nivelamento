@@ -14,8 +14,11 @@ export default function Header() {
                 <HeaderLink url="./transacoes">
                     Transações
                 </HeaderLink>
-                <HeaderLink url="./tiposDespesa">
+                <HeaderLink url="./despesas">
                     Despesas
+                </HeaderLink>
+                <HeaderLink url="./login">
+                    Login
                 </HeaderLink>
             </nav>
         </header>

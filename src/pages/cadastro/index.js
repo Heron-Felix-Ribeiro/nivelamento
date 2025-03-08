@@ -1,4 +1,4 @@
-export default function Cadastro () {
+export default function Cadastro() {
 
     return (
 
