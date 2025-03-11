@@ -22,6 +22,7 @@ export default function Sidebar() {
                     id="submenuDepesas"
                     items={[
                         { to: "/despesas", label: "Lista" },
+                        { to: "/criar_tipo_despesa", label: "Criar Tipo Despesa"}
                     ]}
                 />
                 <Submenu 
@@ -29,7 +30,7 @@ export default function Sidebar() {
                 id="submenuTransacoes"
                 items={[
                     {to: "/transacoes", label: "Lista"}, 
-                    {to: "/criar_transacao", label: "Cadastrar"}
+                    {to: "/criar_transacao", label: "Criar"}
                 ]}
                 />
             </ul>

@@ -8,6 +8,7 @@ import Sidebar from "./components/Sidebar";
 import Despesas from "./pages/Despesas";
 import Login from "./pages/Login";
 import CriarTransacao from "./pages/CriarTransacao";
+import CriarDespesa from "./pages/CriarDespesa";
 
 export default function AppRoute() {
 
@@ -26,6 +27,7 @@ export default function AppRoute() {
                         <Route path="/despesas" element={<Despesas />}></Route>
                         <Route path="/login" element={<Login />}></Route>
                         <Route path="/criar_transacao" element={<CriarTransacao />}></Route>
+                        <Route path="/criar_tipo_despesa" element={<CriarDespesa />}></Route>
                     </Routes>
 
                 </div>
