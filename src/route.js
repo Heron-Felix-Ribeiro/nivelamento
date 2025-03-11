@@ -7,6 +7,7 @@ import Transacoes from "./pages/Transacoes";
 import Sidebar from "./components/Sidebar";
 import Despesas from "./pages/Despesas";
 import Login from "./pages/Login";
+import CriarTransacao from "./pages/CriarTransacao";
 
 export default function AppRoute() {
 
@@ -15,18 +16,19 @@ export default function AppRoute() {
             <Header />
             <div className="d-flex">
                 <Sidebar />
-            
-            <div className="flex-grow-1 p-4">
 
-                <Routes>
-                    <Route path="/" element={<Menu />}></Route>
-                    <Route path="/cadastro" element={<Cadastro />}></Route>
-                    <Route path="/transacoes" element={<Transacoes />}></Route>
-                    <Route path="/despesas" element={<Despesas />}></Route>
-                    <Route path="/login" element={<Login />}></Route>
-                </Routes>
+                <div className="flex-grow-1 p-4">
 
-            </div>
+                    <Routes>
+                        <Route path="/" element={<Menu />}></Route>
+                        <Route path="/cadastro" element={<Cadastro />}></Route>
+                        <Route path="/transacoes" element={<Transacoes />}></Route>
+                        <Route path="/despesas" element={<Despesas />}></Route>
+                        <Route path="/login" element={<Login />}></Route>
+                        <Route path="/criar_transacao" element={<CriarTransacao />}></Route>
+                    </Routes>
+
+                </div>
             </div>
             <Footer />
         </BrowserRouter>
