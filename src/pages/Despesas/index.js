@@ -3,10 +3,10 @@
 export default function Despesas() {
 
     return (
-        <div className="container bg-dark text-light">
+        <div className="container mt-4">
             <h1 className="md-12 mt-3 text-center fw-bold"> Lista de despesas </h1>
-            <table> 
-                <thead>
+            <table className="table table-striped table-bordered">
+                <thead className="table-dark">
                     <tr>
                         <th>Valor</th>
                         <th>Parcelas</th>
