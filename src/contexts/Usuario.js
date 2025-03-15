@@ -20,13 +20,18 @@ export function useUsuarioContext () {
     const {usuario, setUsuario} = useContext(UsuarioContext); 
 
     function login(usuarioLogin) {
-        debugger;
 
         return setUsuario(usuarioLogin);
     } 
 
+    function logout (usuarioLogout) {
+
+        return setUsuario ([]); 
+    }
+
     return{
         usuario,
-        login
+        login,
+        logout
     }
 }

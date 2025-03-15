@@ -1,6 +1,9 @@
+import axios from "axios"
 
 
 export default function Transacoes() {
+
+    axios.get()
 
     return (
         <div>

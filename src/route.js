@@ -27,6 +27,22 @@ function PrivateRoute({ children }) {
     return children;
 }
 
+function ProtectedLayout({children}) {
+
+    return (
+        <>
+            <Header />
+            <div className="d-flex">
+                <Sidebar />
+                <div className="flex-grow-1 p-4">
+                    {children}
+                </div>
+            </div>
+            <Footer />
+        </>
+    )
+}
+
 export default function AppRoute() {
 
     return (
@@ -35,20 +51,28 @@ export default function AppRoute() {
 
                 <Routes>
                     <Route path="/login" element={<Login />}></Route>
+
                     <Route path="/*"
                         element={
+
                             <PrivateRoute>
-                                <Routes>
-                                    <Route path="/" element={<Menu />}></Route>
-                                    <Route path="/cadastro" element={<Cadastro />}></Route>
-                                    <Route path="/transacoes" element={<Transacoes />}></Route>
-                                    <Route path="/despesas" element={<Despesas />}></Route>
-                                    <Route path="/criar_transacao" element={<CriarTransacao />}></Route>
-                                    <Route path="/criar_tipo_despesa" element={<CriarDespesa />}></Route>
-                                </Routes>
+                                <ProtectedLayout>
+                                    <Routes>
+
+                                        <Route path="/" element={<Menu />}></Route>
+                                        <Route path="/cadastro" element={<Cadastro />}></Route>
+                                        <Route path="/transacoes" element={<Transacoes />}></Route>
+                                        <Route path="/despesas" element={<Despesas />}></Route>
+                                        <Route path="/criar_transacao" element={<CriarTransacao />}></Route>
+                                        <Route path="/criar_tipo_despesa" element={<CriarDespesa />}></Route>
+
+                                    </Routes>
+                                </ProtectedLayout>
                             </PrivateRoute>
+
                         }
                     />
+
                 </Routes>
 
             </UsuarioLogadoProvider>

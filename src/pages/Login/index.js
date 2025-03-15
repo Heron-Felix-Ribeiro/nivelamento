@@ -1,27 +1,59 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { UsuarioContext, useUsuarioContext } from "../../contexts/Usuario";
+import axios from "axios";
 
 
 export default function Login() {
 
     const [usuarioInformado, setUsuarios] = useState("");
     const [senha, setSenha] = useState("");
-    const {login} = useUsuarioContext(UsuarioContext);
-    const navigate = useNavigate(); 
+    const { login } = useUsuarioContext(UsuarioContext);
+    const navigate = useNavigate();
 
-    function loginSubmit (e) {
+
+
+    const loginSubmit = async (e) => {
         e.preventDefault();
 
-        debugger;
-        if(usuarioInformado === "Heron" && senha === "1"){
-            login({nome: usuarioInformado, usuarioInformado, logado: true });
-            navigate("/")
+        try {
+
+            {/*const response = await fetch("https://viacep.com.br/ws/01001000/json/", {
+                method: get 
+
+            });
+
+            if (response.ok) {
+                alert("Deu ruim")
+            }
+
+            const data = await response.json();
+        alert(JSON.stringify(data))*/}
+
+            {/*axios.get("https://viacep.com.br/ws/01001000/json/")
+            .then ((response) => 
+
+    )*/}
+
+            {/*const responseAxios = await axios.get("https://viacep.com.br/ws/01001000/json/") 
+
+                const data = await responseAxios.json();
+alert(JSON.stringify(data))*/}
+
+            if (usuarioInformado === "Heron" && senha === "1") {
+                login({ nome: usuarioInformado, usuarioInformado, logado: true });
+                navigate("/")
+            }
+            else {
+                alert("Ta errado")
+            }
+
+        } catch (error) {
+            alert("Erro de conexão com o servidor")
         }
-        else{
-            alert("Ta errado")
-        }    
-    
+
+
+
 
     }
 

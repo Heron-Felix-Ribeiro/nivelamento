@@ -1,12 +1,13 @@
+import { Link } from 'react-router-dom'
 import style from './HeaderLink.module.css'
 
 export default function HeaderLink({ url, children }) {
 
 
   return (
-    <a href={url} className={style.linke}>
+    <Link to={url} className={style.linke}>
       {children}
-    </a>
+    </Link>
 
 
   )

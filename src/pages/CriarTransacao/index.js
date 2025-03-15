@@ -1,4 +1,8 @@
+import axios from "axios"
+
 export default function CriarTransacao() {
+
+    axios.post();
 
     return (
         <div className="container bg-dark text-light">
