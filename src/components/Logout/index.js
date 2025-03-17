@@ -6,7 +6,7 @@ export default function () {
 
     return (
 
-        <button type="button" className="btn btn-light" onClick={(e) => {
+        <button type="button" className="btn btn-danger" onClick={(e) => {
             e.preventDefault();
             logout();
         }}>

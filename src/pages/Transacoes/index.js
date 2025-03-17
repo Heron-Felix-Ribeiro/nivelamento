@@ -1,24 +1,37 @@
 import axios from "axios"
+import Tabela from "../../components/Tabela"
+import { useEffect, useState } from "react"
 
 
 export default function Transacoes() {
+    const [dados, setDados] = useState([]);
 
-    axios.get()
+    useEffect(() => {
+        axios.get("https://viacep.com.br/ws/01001000/json/")
+            .then(response => {
+                const cepData = response.data;
+                const novoDado = [
+                    {
+                        Valor: "N/A",
+                        Parcelas: "N/A",
+                        Estabelecimento: cepData.logradouro || "Não informado",
+                        Data: cepData.bairro || "Não informado"
+                    }
+                ];
+                console.log("Dados carregados:", novoDado);
+                setDados(novoDado);
+            })
+            .catch(error => console.error("Erro ao carregar dados do ViaCEP:", error));
+    }, []);
+    
 
     return (
         <div>
             <h1 className="md-12 mt-3 text-center fw-bold"> Página de transações</h1>
-            <table className="table table-striped table-bordered">
-                <thead className="table-dark">
-                    <tr>
-                        <th>Valor</th>
-                        <th>Parcelas</th>
-                        <th>Estabelecimento</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
-            </table>
-
+            <Tabela
+                colunas={["Valor", "Parcelas", "Estabelecimento", "Data"]}
+                dados={dados}
+            />
         </div>
     )
 }
