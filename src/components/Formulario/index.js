@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Campo from "../Campo";
 
 export default function Formulario({ campos, aoEnviar, botaoTexto }) {
     const [formData, setFormData] = useState(
@@ -9,7 +8,7 @@ export default function Formulario({ campos, aoEnviar, botaoTexto }) {
         }, {})
     );
 
-    
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -17,7 +16,7 @@ export default function Formulario({ campos, aoEnviar, botaoTexto }) {
         });
     };
 
-   
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (aoEnviar) {
@@ -26,7 +25,7 @@ export default function Formulario({ campos, aoEnviar, botaoTexto }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form-container">
+        <form onSubmit={handleSubmit} className="form-container m-2">
             {campos.map((campo) => (
                 <div key={campo.name} className="form-group">
                     <label htmlFor={campo.name}>{campo.label}</label>
@@ -41,9 +40,12 @@ export default function Formulario({ campos, aoEnviar, botaoTexto }) {
                     />
                 </div>
             ))}
-            <button type="submit" className="btn btn-primary mt-3">
-                {botaoTexto || "Enviar"}
-            </button>
+            <div className="d-grip gap-2 text-center p-2">
+                <button type="submit" className="btn btn-primary btn-lg mt-3">
+                    {botaoTexto || "Enviar"}
+                </button>
+            </div>
+
         </form>
     );
 }

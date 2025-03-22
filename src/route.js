@@ -10,9 +10,10 @@ import CriarTransacao from "./pages/CriarTransacao";
 import CriarDespesa from "./pages/CriarDespesa";
 import UsuarioLogadoProvider, { UsuarioContext } from "./contexts/Usuario"
 import { useContext } from "react";
+import CadastroUsuario from "./pages/CadastroUsuario";
 
 function PrivateRoute({ children }) {
-    const usuario = useContext(UsuarioContext)
+    const usuario = useContext(UsuarioContext);
 
     if (!usuario["usuario"]?.logado) {
 
@@ -50,7 +51,7 @@ export default function AppRoute() {
 
                 <Routes>
                     <Route path="/login" element={<Login />}></Route>
-                    <Route path="/cadastrar" element={<cadastrarUsuario />}></Route>
+                    <Route path="/cadastrar" element={<CadastroUsuario />}></Route>
 
                     <Route path="/*"
                         element={

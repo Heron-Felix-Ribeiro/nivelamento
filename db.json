@@ -1,16 +1,55 @@
 {
-    "usuarios": [
-
-        {
-            "id": "1", 
-            "nome": "Heron",
-            "senha": "1"
-        }, 
-        {
-            "id": "2", 
-            "nome": "Joel", 
-            "senha": "2"
-        }
-    
-    ]
+  "usuarios": [
+    {
+      "id": "1",
+      "nome": "Heron",
+      "senha": "1",
+      "salario": 1550
+    },
+    {
+      "id": "2",
+      "nome": "Joel",
+      "senha": "2",
+      "salario": 1500
+    },
+    {
+      "id": "78c3",
+      "usuario": "",
+      "idade": "",
+      "cep": "",
+      "estado": "",
+      "cidade": "",
+      "bairro": "",
+      "rua": "",
+      "numero": ""
+    },
+    {
+      "id": "08fb",
+      "usuario": "",
+      "idade": "",
+      "cep": "",
+      "estado": "",
+      "cidade": "",
+      "bairro": "",
+      "rua": "",
+      "numero": ""
+    },
+    {
+      "id": "8dbc",
+      "usuario": "",
+      "idade": "",
+      "cep": "",
+      "estado": "",
+      "cidade": "",
+      "bairro": "",
+      "rua": "",
+      "numero": ""
+    }
+  ],
+  "transacao": [
+    {
+      "id": "1",
+      "usuarioId": "2"
+    }
+  ]
 }

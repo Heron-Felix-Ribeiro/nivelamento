@@ -11,6 +11,8 @@ export default function Login() {
     const { login } = useUsuarioContext(UsuarioContext);
     const navigate = useNavigate();
 
+    
+
     const loginSubmit = async (e) => {
          
         
@@ -43,7 +45,7 @@ export default function Login() {
                 <label className="text-light">Senha: </label>
                 <input type="password" value={senha} onChange={(e) => setSenha(e.target.value)} className="form-control"></input>
                 <button type="submit" className="btn btn-primary mt-2 col-md-2 text-center w-100">Entrar</button>
-                <p className="text-light text-center p-2">Cadastrar-se</p>
+                <button className="btn btn-secondary mt-2 cold-md-2 text-light text-center w-100 p-2">Cadastrar-se</button>
             </div>
         </form>
     )

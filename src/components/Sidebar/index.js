@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styles from "./sidebar.module.css"
 import MenuItem from "../MenuItem";
 import Submenu from "../Submenu";
@@ -17,6 +16,13 @@ export default function Sidebar() {
             </div>
             <ul className="nav flex-column">
                 <MenuItem to="/" label= "⌂ Menu" />
+                <Submenu 
+                    label="Usuário"
+                    id="submenuUsuario"
+                    items={[
+                        {to: "/cadastrar", label: "Cadastro"}
+                    ]}
+                />
                 <Submenu
                     label="💸 Despesas"
                     id="submenuDepesas"

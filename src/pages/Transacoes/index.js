@@ -18,7 +18,6 @@ export default function Transacoes() {
                         Data: cepData.bairro || "Não informado"
                     }
                 ];
-                console.log("Dados carregados:", novoDado);
                 setDados(novoDado);
             })
             .catch(error => console.error("Erro ao carregar dados do ViaCEP:", error));
