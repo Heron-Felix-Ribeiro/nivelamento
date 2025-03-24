@@ -13,51 +13,54 @@ export default function CadastroUsuario() {
         cidade: "",
         bairro: "",
         rua: "",
-        numero: ""
+        numero: "",
+        senha: ""
     })
-    const navigate = useNavigate; 
+    const navigate = useNavigate();
 
     const cadastroSubmit = async () => {
-
-        try{
-
-            const responseAxios = axios.post("http://localhost:3001/usuarios", cadastro); 
-            navigate("/login")
-            alert("Conta criada com sucesso")
-        } catch(error){
-            alert("Não foi possível cadastrar o seu usuário")
-        }
-        
-    } 
-
-    const cepChange = (cep) => {
-
-        if (cep.length === 8) {
-
-            try {
-
-                const response = axios.get(`https://viacep.com.br/ws/${cep}/json/`)
-                    .then(response => {
-                        const endereco = response.data;
-                        const cadastro = [
-                            {
-                                ...cadastro,
-                                estado: endereco.estado,
-                                cidade: endereco.localidade,
-                                bairro: endereco.bairro,
-                                rua: endereco.rua
-                            }
-                        ];
-                        setCadastro(cadastro);
-                    })
-
-            } catch (error) {
-
-            }
-
+        try {
+            await axios.post("http://localhost:3001/usuarios", cadastro);
+            navigate("/login");
+            alert("Conta criada com sucesso");
+        } catch (error) {
+            alert("Não foi possível cadastrar o seu usuário");
         }
 
     }
+
+    const handleMudarCampo = (field, value) => {
+        setCadastro((prevCadastro) => ({
+            ...prevCadastro,
+            [field]: value
+        }));
+    };
+
+
+    const cepChange = async (cep) => {
+        if (cep.length === 8) {
+            try {
+                const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+                const endereco = response.data;
+                setCadastro((prevCadastro) => ({
+                    ...prevCadastro,
+                    cep: cep,
+                    estado: endereco.uf,
+                    cidade: endereco.localidade,
+                    bairro: endereco.bairro,
+                    rua: endereco.logradouro
+                }));
+            } catch (error) {
+                console.error("Erro ao buscar CEP:", error);
+            }
+        } else {
+            setCadastro((prevCadastro) => ({
+                ...prevCadastro,
+                cep: cep
+            }));
+        }
+    
+    };
 
     return (
         <div className="container bg-dark text-light">
@@ -68,12 +71,20 @@ export default function CadastroUsuario() {
                         { name: "usuario", label: "Usuario", type: "text", required: true },
                         { name: "idade", label: "Idade", type: "text", required: true },
                         { name: "cep", label: "CEP", type: "text", required: true, onChange: (e) => cepChange(e.target.value) },
-                        { name: "estado", label: "Estado", type: "text", required: true },
-                        { name: "cidade", label: "Cidade", type: "text", required: true },
-                        { name: "bairro", label: "Bairro", type: "text", required: true },
-                        { name: "rua", label: "Rua", type: "text", required: true },
-                        { name: "numero", label: "Número", type: "text", required: false }
-                    ]}
+                        { name: "estado", label: "Estado", type: "text", required: true, readOnly: true },
+                        { name: "cidade", label: "Cidade", type: "text", required: true, readOnly: true },
+                        { name: "bairro", label: "Bairro", type: "text", required: true, readOnly: true },
+                        { name: "rua", label: "Rua", type: "text", required: true, readOnly: true },
+                        { name: "numero", label: "Número", type: "text", required: false },
+                        { name: "senha", label: "Senha", type: "password", required: true }
+                    ]}                
+                    valores={cadastro}
+                    aoMudarCampo={(field, value) => {
+                        handleMudarCampo(field, value);
+                        if (field === "cep") {
+                            cepChange(value); 
+                        }
+                    }}
                     botaoTexto="Cadastrar"
                     aoEnviar={cadastroSubmit}
                 />

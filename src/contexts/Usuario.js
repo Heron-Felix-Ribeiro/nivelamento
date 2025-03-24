@@ -6,7 +6,7 @@ UsuarioContext.displayName = "Usuario";
 
 export default function UsuarioProvider({children}) {
 
-    const [ usuario, setUsuario ] = useState([]);
+    const [ usuario, setUsuario ] = useState([]); 
 
     return (
         <UsuarioContext.Provider value={{ usuario, setUsuario }}>
@@ -20,7 +20,6 @@ export function useUsuarioContext () {
     const {usuario, setUsuario} = useContext(UsuarioContext); 
 
     function login(usuarioLogin) {
-
         return setUsuario(usuarioLogin);
     } 
 

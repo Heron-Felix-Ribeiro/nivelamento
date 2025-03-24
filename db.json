@@ -2,54 +2,62 @@
   "usuarios": [
     {
       "id": "1",
-      "nome": "Heron",
+      "usuario": "Heron",
       "senha": "1",
       "salario": 1550
     },
     {
       "id": "2",
-      "nome": "Joel",
+      "usuario": "Joel",
       "senha": "2",
       "salario": 1500
-    },
-    {
-      "id": "78c3",
-      "usuario": "",
-      "idade": "",
-      "cep": "",
-      "estado": "",
-      "cidade": "",
-      "bairro": "",
-      "rua": "",
-      "numero": ""
-    },
-    {
-      "id": "08fb",
-      "usuario": "",
-      "idade": "",
-      "cep": "",
-      "estado": "",
-      "cidade": "",
-      "bairro": "",
-      "rua": "",
-      "numero": ""
-    },
-    {
-      "id": "8dbc",
-      "usuario": "",
-      "idade": "",
-      "cep": "",
-      "estado": "",
-      "cidade": "",
-      "bairro": "",
-      "rua": "",
-      "numero": ""
     }
   ],
   "transacao": [
     {
       "id": "1",
-      "usuarioId": "2"
+      "usuarioId": "1",
+      "valor": "500", 
+      "parcelas": "3",
+      "estabelecimento": "Sorveteria",
+      "tipoDespesa": "Estudo"
+    }
+  ],
+  "despesa": [
+    {
+      "id": "1",
+      "usuarioId": "1",
+      "despesa": "Lazer"
+    },
+    {
+      "id": "1957",
+      "usuarioId": "1",
+      "despesa": "Socorro"
+    },
+    {
+      "id": "d520",
+      "usuarioId": "2",
+      "despesa": "Aula"
+    },
+    {
+      "id": "8c77",
+      "usuarioId": "1",
+      "despesa": "Vish"
+    },
+    {
+      "id": "c557",
+      "usuarioId": "1",
+      "despesa": "Alaba"
+    },
+    {
+      "id": "4aa1",
+      "usuarioId": "2",
+      "despesa": "Vish"
+    },
+    {
+      "id": "0b20",
+      "usuarioId": "1",
+      "despesa": "Aaaaaaaaaaa"
     }
   ]
 }

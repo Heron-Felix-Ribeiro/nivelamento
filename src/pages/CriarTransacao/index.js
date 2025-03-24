@@ -1,36 +1,37 @@
 import axios from "axios";
 import { useState } from "react";
 import Formulario from "../../components/Formulario";
+import { useUsuarioContext } from "../../contexts/Usuario";
+import { useNavigate } from "react-router-dom";
 
 export default function CriarTransacao() {
-    const [resultadoConsulta, setResultadoConsulta] = useState("");
+    const { usuario } = useUsuarioContext();
+    const [cadastro, setCadastro] = useState({
+        usuarioId: usuario.id,
+        valor: "",
+        parcelas: "",
+        tipoDespesa: "",
+        estabelecimento: ""
+    })
+    const navigate = useNavigate();
 
-    const criar = async (valor) => {
-
-        if (!valor.trim()) {
-            alert("Por favor, insira um valor válido.");
-            return;
-        }
+    const cadastroSubmit = async () => {
 
         try {
-            const response = await axios.get(`https://viacep.com.br/ws/${valor}/json/`);
-            const data = response.data;
-
-            if (data.erro) {
-                alert("Não foi possível cadastrar");
-                setResultadoConsulta(null);
-            } else {
-                alert(`Resultado: ${data.logradouro || "Não disponível"}, ${data.bairro || "Não disponível"}`);
-                setResultadoConsulta(data);
-            }
+            await axios.post("http://localhost:3001/transacao", cadastro);
+            navigate("/transacoes");
+            alert("Transação criada com sucesso");
         } catch (error) {
-            alert("Erro de comunicação com o sistema");
+            alert("Não foi possível cadastrar a transação")
         }
-    };
 
-    const aoEnviar = (formData) => {
+    }
 
-        criar(formData.valor);
+    const handleMudarCampo = (campo, valor) => {
+        setCadastro((prevCadastro) => ({
+            ...prevCadastro,
+            [campo]: valor
+        }));
     };
 
     return (
@@ -39,13 +40,35 @@ export default function CriarTransacao() {
             <div className="container mt-5 bg-dark pb-5">
                 <Formulario
                     campos={[
-                        { name: "valor", label: "Valor", type: "number", required: true },
-                        { name: "parcela", label: "Parcela", type: "text", required: true },
-                        { name: "local", label: "Local", type: "text", required: true },
-                        { name: "tipo", label: "Tipo Despesa", type: "text", required: false }
+                        {
+                            name: "valor",
+                            label: "Valor",
+                            type: "number",
+                            required: true
+                        },
+                        { 
+                            name: "parcela", 
+                            label: "Parcela", 
+                            type: "select",
+                            options: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"], 
+                            required: true 
+                        },
+                        { 
+                            name: "estabelecimento", 
+                            label: "Estabelecimento", 
+                            type: "text", 
+                            required: true },
+                        { 
+                            name: "tipo", 
+                            label: "Tipo Despesa", 
+                            type: "text", 
+                            required: false 
+                        }
                     ]}
-                    aoEnviar={aoEnviar}
-                    botaoTexto="Criar"
+                    valores={cadastro}
+                    botaoTexto="Cadastrar"
+                    aoMudarCampo={handleMudarCampo}
+                    aoEnviar={cadastroSubmit}
                 />
             </div>
         </div>

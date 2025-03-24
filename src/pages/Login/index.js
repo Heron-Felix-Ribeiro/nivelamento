@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UsuarioContext, useUsuarioContext } from "../../contexts/Usuario";
 import axios from "axios";
 
@@ -8,28 +8,27 @@ export default function Login() {
 
     const [usuarioInformado, setUsuarios] = useState("");
     const [senha, setSenha] = useState("");
-    const { login } = useUsuarioContext(UsuarioContext);
+    const { login, usuarioId } = useUsuarioContext(UsuarioContext);
     const navigate = useNavigate();
 
-    
-
     const loginSubmit = async (e) => {
-         
-        
+
         e.preventDefault();
 
-        try{
-            const responseAxios = await axios.get(`http://localhost:3001/usuarios?${usuarioInformado}${senha}`);
+        try {
+            const responseAxios = await axios.get(`http://localhost:3001/usuarios?nome=${usuarioInformado}&senha=${senha}`);
 
-            if (responseAxios.data.length > 0){
-                login({ nome: usuarioInformado, usuarioInformado, logado: true });
+            if (responseAxios.data.length === 1) {
+
+                const usuario = responseAxios.data[0];
+                login({ ...usuario, logado: true }); 
                 navigate("/");
-            }else{
+
+            } else {
                 alert("Usuário ou senha não estão certos")
             }
 
-            
-        } catch (error){
+        } catch (error) {
             alert("Erro de conexão com o servidor")
         };
 
@@ -45,6 +44,8 @@ export default function Login() {
                 <label className="text-light">Senha: </label>
                 <input type="password" value={senha} onChange={(e) => setSenha(e.target.value)} className="form-control"></input>
                 <button type="submit" className="btn btn-primary mt-2 col-md-2 text-center w-100">Entrar</button>
+                <Link
+                />
                 <button className="btn btn-secondary mt-2 cold-md-2 text-light text-center w-100 p-2">Cadastrar-se</button>
             </div>
         </form>

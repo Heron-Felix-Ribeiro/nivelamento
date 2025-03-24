@@ -50,6 +50,7 @@ export default function AppRoute() {
             <UsuarioLogadoProvider>
 
                 <Routes>
+                    
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/cadastrar" element={<CadastroUsuario />}></Route>
 

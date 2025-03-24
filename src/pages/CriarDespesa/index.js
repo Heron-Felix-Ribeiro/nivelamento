@@ -1,30 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Formulario from "../../components/Formulario";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useUsuarioContext } from "../../contexts/Usuario";
 
 
 export default function CriarDespesa() {
-    const [resultadoConsulta, setResultadoConsulta] = useState("");
+    const { usuario } = useUsuarioContext(); 
+    const [cadastro, setCadastro] = useState({
+        usuarioId: usuario.id,
+        despesa: ""
+    });
+    const navigate = useNavigate();
 
-    const criar = async (valor) => {
-        if (!valor.trim()) {
-            alert("Por favor, insira um valor válido.");
-            return;
-        }
-
+    const cadastroSubmit = async () => {
+       
         try {
-            const response = await fetch(`https://viacep.com.br/ws/${valor}/json/`);
-            const data = await response.json();
-
-            if (data.erro) {
-                alert("Não foi possível criar o tipo de despesa");
-                setResultadoConsulta(null);
-            } else {
-                alert(`Resultado: ${data.logradouro || "Informação não disponível"}, ${data.bairro || "Informação não disponível"}`);
-                setResultadoConsulta(data);
-            }
+            await axios.post("http://localhost:3001/despesa", cadastro);
+            navigate("/despesas");
+            alert("Tipo de Despesa criada com sucesso");
         } catch (error) {
-            alert("Erro de comunicação com o sistema");
+            alert("Não foi possível cadastrar o tipo de despesa");
         }
+
+    }
+
+    const handleMudarCampo = (campo, valor) => {
+        setCadastro((prevCadastro) => ({
+            ...prevCadastro,
+            [campo]: valor
+        }));
     };
 
     return (
@@ -33,14 +38,19 @@ export default function CriarDespesa() {
             <div className="container mt-5 bg-dark pb-5">
                 <Formulario
                     campos={[
-                        { name: "tipo", label: "Tipo de Despesa", type: "text", required: true },
+                        { 
+                            name: "despesa", 
+                            label: "Tipo de Despesa", 
+                            type: "text", 
+                            required: true 
+                        }
                     ]}
-                    aoEnviar={(formData) => {
-                        criar(formData.tipo);
-                    }}
-                    botaoTexto="Criar"
+                    valores={cadastro}
+                    botaoTexto="Cadastrar"
+                    aoMudarCampo={handleMudarCampo}
+                    aoEnviar={cadastroSubmit}
                 />
             </div>
         </div>
     );
-}
+};
