@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Formulario from "../../components/Formulario";
 import { useUsuarioContext } from "../../contexts/Usuario";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 
 export default function CriarTransacao() {
     const { usuario } = useUsuarioContext();
@@ -13,6 +13,7 @@ export default function CriarTransacao() {
         tipoDespesa: "",
         estabelecimento: ""
     })
+    const [tiposDespesa, setTipoDespesa] = useState([])
     const navigate = useNavigate();
 
     const cadastroSubmit = async () => {
@@ -26,6 +27,21 @@ export default function CriarTransacao() {
         }
 
     }
+
+    const carregarTiposDespesa = async() => {
+
+        try{
+            const respose = await axios.get(`http://localhost:3001/despesa?usuarioId=${usuario.id}`);
+            setTipoDespesa(respose.data);
+        } catch (error) {
+            alert("Não foi possível carregar os tipos de despesa"); 
+        }
+
+    }
+
+    useEffect(() => {
+        carregarTiposDespesa(); 
+    }, []);
 
     const handleMudarCampo = (campo, valor) => {
         setCadastro((prevCadastro) => ({
@@ -47,21 +63,15 @@ export default function CriarTransacao() {
                             required: true
                         },
                         { 
-                            name: "parcela", 
-                            label: "Parcela", 
-                            type: "select",
-                            options: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"], 
-                            required: true 
-                        },
-                        { 
                             name: "estabelecimento", 
                             label: "Estabelecimento", 
                             type: "text", 
                             required: true },
                         { 
-                            name: "tipo", 
+                            name: "tipoDespesa", 
                             label: "Tipo Despesa", 
-                            type: "text", 
+                            type: "select",
+                            options: tiposDespesa.map(despesa => despesa.despesa),  
                             required: false 
                         }
                     ]}

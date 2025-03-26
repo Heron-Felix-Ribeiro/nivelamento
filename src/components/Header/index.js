@@ -1,20 +1,17 @@
-import HeaderLink from '../HeaderLink'
-import Logout from '../Logout'
+import HeaderLink from '../HeaderLink';
+import Logout from '../Logout';
 
 export default function Header() {
-
-    return (
-        <header className="d-flex flex-column bg-dark">
-            <div>
-                
-                <nav className="d-flex justify-content-end flex-grow-1">
-                    <HeaderLink>
-                        <Logout />
-                    </HeaderLink>
-                </nav>
-            </div>
-
-
-        </header>
-    );
+  return (
+    <header className="d-flex flex-column bg-dark py-4">
+      <div className="d-flex align-items-center justify-content-between flex-grow-1">
+        <h1 className="text-light text-center w-100 mb-0">Sistema Financeiro</h1>
+        <nav>
+          <HeaderLink>
+            <Logout />
+          </HeaderLink>
+        </nav>
+      </div>
+    </header>
+  );
 }

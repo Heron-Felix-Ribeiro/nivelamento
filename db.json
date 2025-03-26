@@ -11,23 +11,89 @@
       "usuario": "Joel",
       "senha": "2",
       "salario": 1500
+    },
+    {
+      "id": "1318",
+      "usuario": "ABC",
+      "idade": "18",
+      "cep": "88810170",
+      "estado": "SC",
+      "cidade": "Criciúma",
+      "bairro": "Lote Seis",
+      "rua": "Rua Vila Lobos",
+      "numero": "45",
+      "salario": 1500,
+      "senha": "3"
+    },
+    {
+      "id": "77ba",
+      "usuario": "B",
+      "idade": "19",
+      "cep": "01001000",
+      "estado": "SP",
+      "cidade": "São Paulo",
+      "bairro": "Sé",
+      "rua": "Praça da Sé",
+      "numero": "",
+      "salario": 1900,
+      "senha": "4"
     }
   ],
   "transacao": [
     {
       "id": "1",
       "usuarioId": "1",
-      "valor": "500", 
+      "valor": "500",
       "parcelas": "3",
       "estabelecimento": "Sorveteria",
-      "tipoDespesa": "Estudo"
+      "tipoDespesa": "Lazer"
+    },
+    {
+      "id": "1332",
+      "usuarioId": "2",
+      "valor": "400",
+      "parcelas": "1",
+      "tipoDespesa": "Aula",
+      "estabelecimento": "Senac"
+    },
+    {
+      "id": "6c73",
+      "usuarioId": "1318",
+      "valor": "150",
+      "parcelas": "1",
+      "tipoDespesa": "Lazer",
+      "estabelecimento": "Loja de brinquedo"
+    },
+    {
+      "id": "ce3c",
+      "usuarioId": "1318",
+      "valor": "300",
+      "parcelas": "1",
+      "tipoDespesa": "Lazer",
+      "estabelecimento": "Sorveteria"
+    },
+    {
+      "id": "eee7",
+      "usuarioId": "08f1",
+      "valor": "120",
+      "parcelas": "1",
+      "tipoDespesa": "Lazer",
+      "estabelecimento": "MC"
+    },
+    {
+      "id": "2824",
+      "usuarioId": "77ba",
+      "valor": 300,
+      "parcelas": "1",
+      "tipoDespesa": "Lazer",
+      "estabelecimento": "Sorveteria"
     }
   ],
   "despesa": [
     {
       "id": "1",
       "usuarioId": "1",
-      "despesa": "Lazer"
+      "despesa": "Lazer 1"
     },
     {
       "id": "1957",
@@ -58,6 +124,21 @@
       "id": "0b20",
       "usuarioId": "1",
       "despesa": "Aaaaaaaaaaa"
+    },
+    {
+      "id": "ac3f",
+      "usuarioId": "1318",
+      "despesa": "Lazer"
+    },
+    {
+      "id": "61c9",
+      "usuarioId": "08f1",
+      "despesa": "Lazer"
+    },
+    {
+      "id": "f234",
+      "usuarioId": "77ba",
+      "despesa": "Lazer"
     }
   ]
 }

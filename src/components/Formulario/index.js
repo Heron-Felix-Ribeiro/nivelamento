@@ -1,7 +1,14 @@
 export default function Formulario({ campos, aoEnviar, botaoTexto, aoMudarCampo, valores }) {
     const handleChange = (e) => {
+        let value = e.target.value;
+
+        if (e.target.type === "number") {
+            value = parseFloat(value); 
+        }
+    
+
         if (aoMudarCampo) {
-            aoMudarCampo(e.target.name, e.target.value); 
+            aoMudarCampo(e.target.name, value); 
         }
     };
 

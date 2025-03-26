@@ -15,27 +15,20 @@ export default function Sidebar() {
                 </img>
             </div>
             <ul className="nav flex-column">
-                <MenuItem to="/" label= "⌂ Menu" />
-                <Submenu 
-                    label="Usuário"
-                    id="submenuUsuario"
-                    items={[
-                        {to: "/cadastrar", label: "Cadastro"}
-                    ]}
-                />
+                <MenuItem to="/" label= "⌂ Menu" /> 
                 <Submenu
-                    label="💸 Despesas"
+                    label="Tipos de Despesa"
                     id="submenuDepesas"
                     items={[
-                        { to: "/despesas", label: "Lista" },
-                        { to: "/criar_tipo_despesa", label: "Criar Tipo Despesa"}
+                        { to: "/despesas", label: "Listar" },
+                        { to: "/criar_tipo_despesa", label: "Criar"}
                     ]}
                 />
                 <Submenu 
                 label="Transações"
                 id="submenuTransacoes"
                 items={[
-                    {to: "/transacoes", label: "Lista"}, 
+                    {to: "/transacoes", label: "Listar"}, 
                     {to: "/criar_transacao", label: "Criar"}
                 ]}
                 />

@@ -14,6 +14,7 @@ export default function CadastroUsuario() {
         bairro: "",
         rua: "",
         numero: "",
+        salario: "",
         senha: ""
     })
     const navigate = useNavigate();
@@ -76,6 +77,7 @@ export default function CadastroUsuario() {
                         { name: "bairro", label: "Bairro", type: "text", required: true, readOnly: true },
                         { name: "rua", label: "Rua", type: "text", required: true, readOnly: true },
                         { name: "numero", label: "Número", type: "text", required: false },
+                        { name: "salario", label: "Salário", type: "number", required: true},
                         { name: "senha", label: "Senha", type: "password", required: true }
                     ]}                
                     valores={cadastro}

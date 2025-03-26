@@ -1,14 +1,14 @@
-export default function BotaoDelete ({ aoDeletar}) {
+export default function BotaoExcluir({ id, aoExcluir }) {
+    const handleExcluir = () => {
+        aoExcluir(id);
+    };
 
     return (
         <button
-        onclick={aoDeletar}
-        className="btn btn danger"
+            className="btn btn-danger"
+            onClick={handleExcluir}
         >
-            <label>
-                Deletar
-            </label>
+            Deletar 
         </button>
-    )
-
+    );
 }

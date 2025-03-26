@@ -11,6 +11,8 @@ import CriarDespesa from "./pages/CriarDespesa";
 import UsuarioLogadoProvider, { UsuarioContext } from "./contexts/Usuario"
 import { useContext } from "react";
 import CadastroUsuario from "./pages/CadastroUsuario";
+import AtualizarTransacao from "./pages/AtualizarTransacao";
+import AtualizarDespesa from "./pages/AtualizarDespesa";
 
 function PrivateRoute({ children }) {
     const usuario = useContext(UsuarioContext);
@@ -66,6 +68,8 @@ export default function AppRoute() {
                                         <Route path="/despesas" element={<Despesas />}></Route>
                                         <Route path="/criar_transacao" element={<CriarTransacao />}></Route>
                                         <Route path="/criar_tipo_despesa" element={<CriarDespesa />}></Route>
+                                        <Route path="/atualizar_transacao/:id" element={<AtualizarTransacao />}></Route>
+                                        <Route path="/atualizar_despesa/:id" element={<AtualizarDespesa />}></Route>
 
                                     </Routes>
                                 </ProtectedLayout>

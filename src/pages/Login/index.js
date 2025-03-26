@@ -2,13 +2,14 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { UsuarioContext, useUsuarioContext } from "../../contexts/Usuario";
 import axios from "axios";
+import CadastroUsuario from "../CadastroUsuario";
 
 
 export default function Login() {
 
     const [usuarioInformado, setUsuarios] = useState("");
     const [senha, setSenha] = useState("");
-    const { login, usuarioId } = useUsuarioContext(UsuarioContext);
+    const { login } = useUsuarioContext(UsuarioContext);
     const navigate = useNavigate();
 
     const loginSubmit = async (e) => {
@@ -21,7 +22,8 @@ export default function Login() {
             if (responseAxios.data.length === 1) {
 
                 const usuario = responseAxios.data[0];
-                login({ ...usuario, logado: true }); 
+                console.log(usuario)
+                login({ ...usuario, logado: true });
                 navigate("/");
 
             } else {
@@ -44,9 +46,10 @@ export default function Login() {
                 <label className="text-light">Senha: </label>
                 <input type="password" value={senha} onChange={(e) => setSenha(e.target.value)} className="form-control"></input>
                 <button type="submit" className="btn btn-primary mt-2 col-md-2 text-center w-100">Entrar</button>
-                <Link
-                />
-                <button className="btn btn-secondary mt-2 cold-md-2 text-light text-center w-100 p-2">Cadastrar-se</button>
+                <Link to="/cadastrar" className="btn btn-secondary mt-2 col-md-2 text-light text-center w-100 p-2">
+                    Cadastrar-se
+                </Link>
+
             </div>
         </form>
     )
