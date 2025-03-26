@@ -3,12 +3,11 @@ export default function Formulario({ campos, aoEnviar, botaoTexto, aoMudarCampo,
         let value = e.target.value;
 
         if (e.target.type === "number") {
-            value = parseFloat(value); 
+            value = parseFloat(value);
         }
-    
 
         if (aoMudarCampo) {
-            aoMudarCampo(e.target.name, value); 
+            aoMudarCampo(e.target.name, value);
         }
     };
 
@@ -20,40 +19,42 @@ export default function Formulario({ campos, aoEnviar, botaoTexto, aoMudarCampo,
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form-container m-2">
-            {campos.map((campo) => (
-                <div key={campo.name} className="form-group">
-                    <label htmlFor={campo.name}>{campo.label}</label>
-                    {campo.type === "select" ? (
-                        <select
-                            id={campo.name}
-                            name={campo.name}
-                            value={valores[campo.name]}
-                            onChange={handleChange}
-                            required={campo.required || false}
-                            className="form-control"
-                        >
-                            <option value="">Selecione...</option>
-                            {campo.options.map(option => (
-                                <option key={option} value={option}>{option}</option>
-                            ))}
-                        </select>
-                    ) : (
-                        <input
-                            id={campo.name}
-                            name={campo.name}
-                            type={campo.type || "text"}
-                            value={valores[campo.name]}
-                            onChange={handleChange}
-                            required={campo.required || false}
-                            readOnly={campo.readOnly || false}
-                            className="form-control"
-                        />
-                    )}
-                </div>
-            ))}
-            <div className="d-grid gap-2 text-center p-2">
-                <button type="submit" className="btn btn-primary btn-lg mt-3">
+        <form onSubmit={handleSubmit} className="container mt-4">
+            <div className="row">
+                {campos.map((campo) => (
+                    <div key={campo.name} className={`col-12 col-sm-6 col-md-4 mb-3`}>
+                        <label htmlFor={campo.name} className="form-label">{campo.label}</label>
+                        {campo.type === "select" ? (
+                            <select
+                                id={campo.name}
+                                name={campo.name}
+                                value={valores[campo.name]}
+                                onChange={handleChange}
+                                required={campo.required || false}
+                                className="form-control"
+                            >
+                                <option value="">Selecione...</option>
+                                {campo.options.map(option => (
+                                    <option key={option} value={option}>{option}</option>
+                                ))}
+                            </select>
+                        ) : (
+                            <input
+                                id={campo.name}
+                                name={campo.name}
+                                type={campo.type || "text"}
+                                value={valores[campo.name]}
+                                onChange={handleChange}
+                                required={campo.required || false}
+                                readOnly={campo.readOnly || false}
+                                className="form-control"
+                            />
+                        )}
+                    </div>
+                ))}
+            </div>
+            <div className="text-center mt-4 p-3">
+                <button type="submit" className="btn btn-primary btn-lg ">
                     {botaoTexto || "Enviar"}
                 </button>
             </div>

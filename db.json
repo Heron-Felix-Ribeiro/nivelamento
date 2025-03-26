@@ -37,6 +37,19 @@
       "numero": "",
       "salario": 1900,
       "senha": "4"
+    },
+    {
+      "id": "ec57",
+      "usuario": "C",
+      "idade": "18",
+      "cep": "88810170",
+      "estado": "SC",
+      "cidade": "Criciúma",
+      "bairro": "Lote Seis",
+      "rua": "Rua Vila Lobos",
+      "numero": "30",
+      "salario": 30000,
+      "senha": "5"
     }
   ],
   "transacao": [
