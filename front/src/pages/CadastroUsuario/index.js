@@ -71,7 +71,7 @@ export default function CadastroUsuario() {
                     campos={[
                         { name: "usuario", label: "Usuario", type: "text", required: true },
                         { name: "idade", label: "Idade", type: "text", required: true },
-                        { name: "cep", label: "CEP", type: "text", required: true, onChange: (e) => cepChange(e.target.value) },
+                        { name: "cep", label: "CEP", type: "text", required: true },
                         { name: "estado", label: "Estado", type: "text", required: true, readOnly: true },
                         { name: "cidade", label: "Cidade", type: "text", required: true, readOnly: true },
                         { name: "bairro", label: "Bairro", type: "text", required: true, readOnly: true },

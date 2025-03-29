@@ -10,15 +10,15 @@ export default function Menu() {
     const [chartInstance, setChartInstance] = useState(null);
 
     useEffect(() => {
-        console.log("Transações no Menu:", transacoes); // Verificar transações
-        console.log("Saldo:", saldo); // Certificar que o saldo foi calculado
+        console.log("Transações no Menu:", transacoes); 
+        console.log("Saldo:", saldo); 
     }, [transacoes, saldo]);
 
     useEffect(() => {
         if (usuario && transacoes.length > 0) {
-            const salarioUsuario = usuario.salario || 0; // Salário inicial do usuário
+            const salarioUsuario = usuario.salario || 0; 
             const totalGastos = transacoes.reduce((total, transacao) => {
-                return total + Number(transacao.valor); // Somar todos os valores das transações
+                return total + Number(transacao.valor); 
             }, 0);
             
             const saldoAtual = salarioUsuario - totalGastos;
@@ -28,7 +28,7 @@ export default function Menu() {
                 datasets: [
                     {
                         label: "Financeiro",
-                        data: [salarioUsuario, totalGastos, saldoAtual], // Atualizar os dados
+                        data: [salarioUsuario, totalGastos, saldoAtual], 
                         backgroundColor: ["#4CAF50", "#FF6F61", "#2196F3"],
                     },
                 ],

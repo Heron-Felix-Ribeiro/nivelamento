@@ -52,7 +52,6 @@ export default function UsuarioProvider({ children }) {
     );
 }
 
-// Hook para consumir o contexto
 export function useUsuarioContext() {
     return useContext(UsuarioContext);
 }
