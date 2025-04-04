@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
@@ -25,7 +26,7 @@ public class UsuarioController {
 
     }
 
-    @GetMapping
+    @GetMapping("/listar")
     public List<Usuario> listar() {
 
         var retornoUsuario = usuarioRepository.findAll();
@@ -33,28 +34,34 @@ public class UsuarioController {
         return retornoUsuario;
     }
 
-    @GetMapping("/{id}")
-    public List<Usuario> listarUm(@PathVariable Long id) {
+    @GetMapping("/listar/{id}")
+    public ResponseEntity<?> listarUm(@PathVariable Long id) {
 
         var retornoUsuario = usuarioRepository.findById(id);
 
-        return new ArrayList<Usuario>();
+        return ResponseEntity.ok().body(retornoUsuario);
     }
 
-    /*@PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Usuario usuarioAtualizado) {
 
-        var retornoUsuario = usuarioRepository.save(usuario);
+        Optional<Usuario> atualizacao = usuarioRepository.findById(id);
 
-        return ResponseEntity.ok();
-    }*/
+        if (!atualizacao.isEmpty()){
 
-    /*@DeleteMapping("/{id}")
+            var retornoUsuario = usuarioRepository.save(usuarioAtualizado);
+
+            return ResponseEntity.ok().body(retornoUsuario);
+        }
+
+        return null;
+    }
+
+
+    @DeleteMapping("/deletar/{id}")
     public List<Usuario> deletar(@PathVariable Long id) {
 
-
-
-        return new ArrayList<>();
-    }*/
+        return null;
+    }
 
 }
