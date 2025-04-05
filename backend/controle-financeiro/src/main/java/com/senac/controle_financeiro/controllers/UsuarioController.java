@@ -1,5 +1,6 @@
 package com.senac.controle_financeiro.controllers;
 
+import com.senac.controle_financeiro.models.entities.TipoDespesa;
 import com.senac.controle_financeiro.models.entities.Usuario;
 import com.senac.controle_financeiro.models.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class UsuarioController {
 
         Optional<Usuario> atualizacao = usuarioRepository.findById(id);
 
-        if (!atualizacao.isEmpty()){
+        if (!atualizacao.isEmpty()) {
 
             var retornoUsuario = usuarioRepository.save(usuarioAtualizado);
 
@@ -59,9 +60,14 @@ public class UsuarioController {
 
 
     @DeleteMapping("/deletar/{id}")
-    public List<Usuario> deletar(@PathVariable Long id) {
+    public void deletar(@PathVariable Long id) {
 
-        return null;
+        Optional<Usuario> existe = usuarioRepository.findById(id);
+
+        if (!existe.isEmpty()){
+            usuarioRepository.deleteById(id);
+        }
+
     }
 
 }

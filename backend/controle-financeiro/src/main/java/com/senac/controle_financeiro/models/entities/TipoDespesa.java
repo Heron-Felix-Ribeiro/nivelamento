@@ -12,6 +12,7 @@ public class TipoDespesa {
     private Long id;
     @Column
     private String nome;
-    @Column
-    private Long idUsuario;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 }

@@ -16,6 +16,7 @@ public class Transacao {
     private String estabelecimento;
     @Column
     private String tipoDespesa;
-    @Column
-    private Long idUsuario;
+    @ManyToOne
+    @JoinColumn(name = "usuario")
+    private Usuario usuario;
 }

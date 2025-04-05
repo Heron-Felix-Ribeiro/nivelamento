@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter @Setter @Entity @Table(name = "usuario")
 public class Usuario {
 
@@ -28,6 +30,8 @@ public class Usuario {
     private String rua;
     @Column
     private Integer numero;
-
-
+    @OneToMany(mappedBy = "usuario")
+    private List<Transacao> transacoes;
+    @OneToMany(mappedBy = "usuario")
+    private List<TipoDespesa> despesas;
 }

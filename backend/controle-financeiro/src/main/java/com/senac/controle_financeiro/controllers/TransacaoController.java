@@ -1,5 +1,6 @@
 package com.senac.controle_financeiro.controllers;
 
+import com.senac.controle_financeiro.models.entities.TipoDespesa;
 import com.senac.controle_financeiro.models.entities.Transacao;
 import com.senac.controle_financeiro.models.repository.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,12 @@ public class TransacaoController {
         return ResponseEntity.ok().body(retornoTransacao);
     }
 
-    @GetMapping("/listar")
-    public List<Transacao> listar() {
+    @GetMapping("/listar/{id}")
+    public Optional<Transacao> listar(@PathVariable Long id) {
 
-        var retornoTranscao = transacaoRepository.findAll();
+        Optional<Transacao> retornoTransacao = transacaoRepository.findByUsuarioId(id);
 
-        return retornoTranscao;
+        return retornoTransacao;
     }
 
     @PutMapping("/{id}")
@@ -48,8 +49,12 @@ public class TransacaoController {
     }
 
     @DeleteMapping("/deletar/{id}")
-    public List<Transacao> deletar (@PathVariable Long id) {
+    public void deletar (@PathVariable Long id) {
 
-        return null;
+        Optional<Transacao> existe = transacaoRepository.findById(id);
+
+        if (!existe.isEmpty()){
+            transacaoRepository.deleteById(id);
+        }
     }
 }

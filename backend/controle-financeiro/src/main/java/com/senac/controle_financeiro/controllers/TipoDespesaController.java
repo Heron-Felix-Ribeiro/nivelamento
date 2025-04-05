@@ -24,12 +24,12 @@ public class TipoDespesaController {
         return ResponseEntity.ok().body(retornoDespesa);
     }
 
-    @GetMapping("/listar")
-    public List<TipoDespesa> listar () {
+    @GetMapping("/listar/{id}")
+    public Optional<TipoDespesa> listar (@PathVariable Long id) {
 
-        var retornoDespesa = tipoDespesaRepository.findAll();
+        Optional<TipoDespesa> listaDespesas = tipoDespesaRepository.findByUsuarioId(id);
 
-        return retornoDespesa;
+        return listaDespesas;
     }
 
     @PutMapping("/{id}")
@@ -48,8 +48,13 @@ public class TipoDespesaController {
     }
 
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<?> deletar (@PathVariable Long id) {
+    public void deletar (@PathVariable Long id) {
 
-        return null;
+        Optional<TipoDespesa> existe = tipoDespesaRepository.findById(id);
+
+        if (!existe.isEmpty()){
+            tipoDespesaRepository.deleteById(id);
+        }
+
     }
 }
