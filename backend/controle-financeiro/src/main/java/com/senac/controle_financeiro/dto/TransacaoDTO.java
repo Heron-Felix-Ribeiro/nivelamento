@@ -1,10 +1,11 @@
 package com.senac.controle_financeiro.dto;
 
+import com.senac.controle_financeiro.models.entities.Transacao;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter @Getter
-public class TranscaoDTO {
+public class TransacaoDTO {
 
     private Long id;
     private Double valor;
@@ -12,11 +13,19 @@ public class TranscaoDTO {
     private String tipoDespesa;
     private Long usuario;
 
-    public TranscaoDTO() {
+    public TransacaoDTO() {
 
     }
 
-    public TranscaoDTO(Long id, Double valor, String estabelecimento, String tipoDespesa, Long usuario) {
+    public TransacaoDTO(Long id, Double valor, String estabelecimento, String tipoDespesa, Long usuario) {
+        this.id = id;
+        this.valor = valor;
+        this.estabelecimento = estabelecimento;
+        this.tipoDespesa = tipoDespesa;
+        this.usuario = usuario;
+    }
+
+    public TransacaoDTO(Transacao transacao){
         this.id = id;
         this.valor = valor;
         this.estabelecimento = estabelecimento;

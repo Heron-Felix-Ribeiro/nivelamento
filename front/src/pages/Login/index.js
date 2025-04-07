@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom";
+import { data, Link, useNavigate } from "react-router-dom";
 import { UsuarioContext, useUsuarioContext } from "../../contexts/Usuario";
 import axios from "axios";
 import CadastroUsuario from "../CadastroUsuario";
@@ -17,12 +17,19 @@ export default function Login() {
         e.preventDefault();
 
         try {
-            const responseAxios = await axios.get(`http://localhost:3001/usuarios?nome=${usuarioInformado}&senha=${senha}`);
+            const responseAxios = await axios.post("http://localhost:8080/usuario/login",
+                {
+                    usuario: usuarioInformado,
+                    senha: senha
+                }
+            );
 
-            if (responseAxios.data.length === 1) {
+            console.log("Resposta completa do backend:", responseAxios.data);
 
-                const usuario = responseAxios.data[0];
-                console.log(usuario)
+            if (responseAxios.status === 200) {
+
+                const usuario = responseAxios.data;
+                console.log(data)
                 login({ ...usuario, logado: true });
                 navigate("/");
 

@@ -6,7 +6,7 @@ export const UsuarioContext = createContext();
 UsuarioContext.displayName = "Usuario";
 
 export default function UsuarioProvider({ children }) {
-    const [usuario, setUsuario] = useState("");
+    const [usuario, setUsuario] = useState({});
     const [transacoes, setTransacoes] = useState([]);
     const [saldo, setSaldo] = useState(0);
 

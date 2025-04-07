@@ -9,13 +9,14 @@ export default function Despesas() {
     const { usuario } = useUsuarioContext();
     const [dados, setDados] = useState([]);
     const navigate = useNavigate();
+    console.log("ID do usuário:", usuario?.id);
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/despesa?usuarioId=${usuario.id}`)
-            .then(response => {
+        axios.get(`http://localhost:8080/tipo_despesa/listar/${usuario.id}`)
+            .then(response => {console.log("Resposta do backend:", response.data);
                 const dadosFormatados = response.data.map(item => ({
                     id: item.id,
-                    despesa: item.despesa
+                    nome: item.nome
                 }));
                 setDados(dadosFormatados);
             })
@@ -45,7 +46,7 @@ export default function Despesas() {
             <h1 className="md-12 mt-3 text-center fw-bold">Lista de Despesas</h1>
             <Tabela
                 colunas={[
-                    { key: "despesa", label: "Descrição" },
+                    { key: "nome", label: "Despesa" },
                     { key: "ações", label: "Ações" }
                 ]}
                 dados={dados}

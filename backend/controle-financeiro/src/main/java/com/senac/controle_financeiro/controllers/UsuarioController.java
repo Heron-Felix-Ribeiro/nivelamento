@@ -1,5 +1,7 @@
 package com.senac.controle_financeiro.controllers;
 
+import com.senac.controle_financeiro.dto.LoginDTO;
+import com.senac.controle_financeiro.dto.UsuarioDTO;
 import com.senac.controle_financeiro.models.entities.TipoDespesa;
 import com.senac.controle_financeiro.models.entities.Usuario;
 import com.senac.controle_financeiro.models.repository.UsuarioRepository;
@@ -24,6 +26,26 @@ public class UsuarioController {
         var retornoUsuario = usuarioRepository.save(usuario);
 
         return ResponseEntity.ok().body(retornoUsuario);
+
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login (@RequestBody LoginDTO usuario) {
+
+        Optional<Usuario> usuarioSalvo = usuarioRepository.findByUsuarioIgnoreCase(usuario.getUsuario());
+
+        if (usuarioSalvo.isPresent()) {
+            Boolean logado = usuarioSalvo.get().getSenha().equals(usuario.getSenha());
+
+            if (logado){
+                return ResponseEntity.ok().body(new UsuarioDTO(usuarioSalvo.get()));
+            }
+
+            return ResponseEntity.status(401).body("Senha inválida.");
+
+        }
+
+        return ResponseEntity.status(401).body("Usuário inválido.");
 
     }
 

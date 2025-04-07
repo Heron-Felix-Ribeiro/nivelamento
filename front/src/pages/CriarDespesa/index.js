@@ -8,15 +8,17 @@ import { useUsuarioContext } from "../../contexts/Usuario";
 export default function CriarDespesa() {
     const { usuario } = useUsuarioContext(); 
     const [cadastro, setCadastro] = useState({
-        usuarioId: usuario.id,
+        usuario: usuario.id,
         despesa: ""
     });
     const navigate = useNavigate();
 
+    console.log(usuario)
     const cadastroSubmit = async () => {
        
         try {
-            await axios.post("http://localhost:3001/despesa", cadastro);
+            console.log("Objeto enviado:", cadastro);
+            await axios.post("http://localhost:8080/tipo_despesa", cadastro);
             navigate("/despesas");
             alert("Tipo de Despesa criada com sucesso");
         } catch (error) {

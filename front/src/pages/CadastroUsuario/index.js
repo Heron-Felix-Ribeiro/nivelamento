@@ -21,7 +21,7 @@ export default function CadastroUsuario() {
 
     const cadastroSubmit = async () => {
         try {
-            await axios.post("http://localhost:3001/usuarios", cadastro);
+            await axios.post("http://localhost:8080/usuario", cadastro);
             navigate("/login");
             alert("Conta criada com sucesso");
         } catch (error) {

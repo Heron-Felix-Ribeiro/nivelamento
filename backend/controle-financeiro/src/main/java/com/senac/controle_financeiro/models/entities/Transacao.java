@@ -1,5 +1,6 @@
 package com.senac.controle_financeiro.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,6 @@ public class Transacao {
     @Column
     private String tipoDespesa;
     @ManyToOne
-    @JoinColumn(name = "usuario")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 }

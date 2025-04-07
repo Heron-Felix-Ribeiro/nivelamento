@@ -1,5 +1,6 @@
 package com.senac.controle_financeiro.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,8 @@ public class Usuario {
     @Column
     private String usuario;
     @Column
+    private Double salario;
+    @Column
     private Integer idade;
     @Column
     private String senha;
@@ -23,7 +26,7 @@ public class Usuario {
     @Column
     private String estado;
     @Column
-    private String municipio;
+    private String cidade;
     @Column
     private String bairro;
     @Column
@@ -34,4 +37,5 @@ public class Usuario {
     private List<Transacao> transacoes;
     @OneToMany(mappedBy = "usuario")
     private List<TipoDespesa> despesas;
+
 }
