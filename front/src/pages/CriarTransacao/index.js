@@ -7,10 +7,9 @@ import { data, useNavigate } from "react-router-dom";
 export default function CriarTransacao() {
     const { usuario } = useUsuarioContext();
     const [cadastro, setCadastro] = useState({
-        usuarioId: usuario.id,
+        usuario: usuario.id,
         valor: "",
-        parcelas: "",
-        tipoDespesa: "",
+        despesa: "",
         estabelecimento: ""
     })
     const [tiposDespesa, setTipoDespesa] = useState([])
@@ -19,7 +18,8 @@ export default function CriarTransacao() {
     const cadastroSubmit = async () => {
 
         try {
-            await axios.post("http://localhost:3001/transacao", cadastro);
+            console.log("Dados do cadastro:", cadastro);
+            await axios.post("http://localhost:8080/transacao", cadastro);
             navigate("/transacoes");
             alert("Transação criada com sucesso");
         } catch (error) {
@@ -31,7 +31,8 @@ export default function CriarTransacao() {
     const carregarTiposDespesa = async() => {
 
         try{
-            const respose = await axios.get(`http://localhost:3001/despesa?usuarioId=${usuario.id}`);
+            const respose = await axios.get(`http://localhost:8080/tipo_despesa/listar/${usuario.id}`);
+            console.log(respose)
             setTipoDespesa(respose.data);
         } catch (error) {
             alert("Não foi possível carregar os tipos de despesa"); 
@@ -68,7 +69,7 @@ export default function CriarTransacao() {
                             type: "text", 
                             required: true },
                         { 
-                            name: "tipoDespesa", 
+                            name: "despesa", 
                             label: "Tipo Despesa", 
                             type: "select",
                             options: tiposDespesa.map(despesa => despesa.despesa),  

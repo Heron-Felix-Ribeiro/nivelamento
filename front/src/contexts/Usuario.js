@@ -24,7 +24,7 @@ export default function UsuarioProvider({ children }) {
         const fetchTransacoes = async () => {
             if (usuario?.id) {
                 try {
-                    const response = await axios.get(`http://localhost:3001/transacao?usuarioId=${usuario.id}`);
+                    const response = await axios.get(`http://localhost:8080/transacao/listar/${usuario.id}`);
                     console.log("Transações carregadas (contexto):", response.data);
                     console.log("Salário do Usuário:", usuario.salario);
                     setTransacoes(response.data);

@@ -32,7 +32,7 @@ public class TipoDespesaController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
 
         TipoDespesa tipoDespesa = new TipoDespesa();
-        tipoDespesa.setDespesa(entrada.getNome());
+        tipoDespesa.setDespesa(entrada.getDespesa());
         tipoDespesa.setUsuario(usuario);
 
         TipoDespesa despesa = tipoDespesaRepository.save(tipoDespesa);
@@ -52,6 +52,15 @@ public class TipoDespesaController {
         return listaDespesas;
     }
 
+    @GetMapping("listarUm/{id}")
+    public ResponseEntity<?> listarUm (@PathVariable Long id) {
+
+        var retornoDespesa = tipoDespesaRepository.findById(id);
+
+        return ResponseEntity.ok().body(retornoDespesa);
+
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar (@PathVariable Long id, @RequestBody TipoDespesaDTO entrada){
 
@@ -60,7 +69,7 @@ public class TipoDespesaController {
         if (!atualizacao.isEmpty()){
 
             TipoDespesa despesa = atualizacao.get();
-            despesa.setDespesa(entrada.getNome());
+            despesa.setDespesa(entrada.getDespesa());
             tipoDespesaRepository.save(despesa);
 
             TipoDespesaDTO retornoDespesa = new TipoDespesaDTO(despesa);

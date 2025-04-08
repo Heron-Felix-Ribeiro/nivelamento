@@ -8,21 +8,21 @@ import lombok.Setter;
 public class TipoDespesaDTO {
 
     private Long id;
-    private String nome;
+    private String despesa;
     private Long usuario;
 
     public TipoDespesaDTO() {
     }
 
     public TipoDespesaDTO(String nome, Long usuario) {
-        this.nome = nome;
+        this.despesa = nome;
         this.usuario = usuario;
     }
 
 
     public TipoDespesaDTO(TipoDespesa tipoDespesa) {
         this.id = tipoDespesa.getId();
-        this.nome = tipoDespesa.getDespesa();
+        this.despesa = tipoDespesa.getDespesa();
         this.usuario = tipoDespesa.getUsuario().getId();
     }
 

@@ -12,16 +12,16 @@ export default function Transacoes() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/transacao?usuarioId=${usuario.id}`)
+        axios.get(`http://localhost:8080/transacao/listar/${usuario.id}`)
             .then(response => {
                 const dadosFormatados = response.data.map(item => ({
                     id: item.id,
                     valor: item.valor,
-                    parcelas: item.parcelas,
                     estabelecimento: item.estabelecimento,
-                    tipoDespesa: item.tipoDespesa
+                    despesa: item.despesa
 
                 }))
+                console.log(dadosFormatados)
                 setDados(dadosFormatados);
             });
     }, [usuario]);
@@ -36,7 +36,7 @@ export default function Transacoes() {
         );
 
         try {
-            axios.delete(`http://localhost:3001/transacao/${id}`);
+            axios.delete(`http://localhost:8080/transacao/deletar/${id}`);
         } catch (error) {
             alert("Não foi possível deletar o registro")
         }
@@ -50,7 +50,7 @@ export default function Transacoes() {
                 colunas={[
                     { key: "valor", label: "Valor" },
                     { key: "estabelecimento", label: "Estabelecimento" },
-                    { key: "tipoDespesa", label: "Tipo de Despesa" },
+                    { key: "despesa", label: "Despesa" },
                     { key: "ações", label: "Ações" }
                 ]}
                 dados={dados}

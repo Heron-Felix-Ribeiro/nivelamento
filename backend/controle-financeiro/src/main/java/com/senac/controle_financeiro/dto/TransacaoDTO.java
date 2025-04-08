@@ -10,7 +10,7 @@ public class TransacaoDTO {
     private Long id;
     private Double valor;
     private String estabelecimento;
-    private String tipoDespesa;
+    private String despesa;
     private Long usuario;
 
     public TransacaoDTO() {
@@ -21,15 +21,15 @@ public class TransacaoDTO {
         this.id = id;
         this.valor = valor;
         this.estabelecimento = estabelecimento;
-        this.tipoDespesa = tipoDespesa;
+        this.despesa = tipoDespesa;
         this.usuario = usuario;
     }
 
     public TransacaoDTO(Transacao transacao){
-        this.id = id;
-        this.valor = valor;
-        this.estabelecimento = estabelecimento;
-        this.tipoDespesa = tipoDespesa;
-        this.usuario = usuario;
+        this.id = transacao.getId();
+        this.valor = transacao.getValor();
+        this.estabelecimento = transacao.getEstabelecimento();
+        this.despesa = transacao.getDespesa().getDespesa();
+        this.usuario = transacao.getUsuario().getId();
     }
 }

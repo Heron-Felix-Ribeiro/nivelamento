@@ -1,8 +1,10 @@
 package com.senac.controle_financeiro.controllers;
 
 import com.senac.controle_financeiro.dto.TransacaoDTO;
+import com.senac.controle_financeiro.models.entities.TipoDespesa;
 import com.senac.controle_financeiro.models.entities.Transacao;
 import com.senac.controle_financeiro.models.entities.Usuario;
+import com.senac.controle_financeiro.models.repository.TipoDespesaRepository;
 import com.senac.controle_financeiro.models.repository.TransacaoRepository;
 import com.senac.controle_financeiro.models.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +27,22 @@ public class TransacaoController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private TipoDespesaRepository tipoDespesaRepository;
+
     @PostMapping
     public ResponseEntity<?> salvar(@RequestBody TransacaoDTO entrada) {
 
         Usuario usuario = usuarioRepository.findById(entrada.getUsuario())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
 
+        TipoDespesa despesa = tipoDespesaRepository.findByDespesa(entrada.getDespesa())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Despesa não encontrada"));
+
         Transacao transacao = new Transacao();
         transacao.setValor(entrada.getValor());
         transacao.setEstabelecimento(entrada.getEstabelecimento());
-        transacao.setTipoDespesa(entrada.getTipoDespesa());
+        transacao.setDespesa(despesa);
         transacao.setUsuario(usuario);
 
         Transacao transacaoSalva = transacaoRepository.save(transacao);
@@ -55,6 +63,15 @@ public class TransacaoController {
 
     }
 
+    @GetMapping("/listarUm/{id}")
+    public ResponseEntity<?> listarUm (@PathVariable Long id) {
+
+        var retornoTransacacao = transacaoRepository.findById(id);
+
+        return ResponseEntity.ok().body(retornoTransacacao);
+
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody TransacaoDTO entrada) {
 
@@ -65,7 +82,9 @@ public class TransacaoController {
             Transacao transacao = atualizacao.get();
             transacao.setValor(entrada.getValor());
             transacao.setEstabelecimento(entrada.getEstabelecimento());
-            transacao.setTipoDespesa(entrada.getTipoDespesa());
+            TipoDespesa despesa = tipoDespesaRepository.findByDespesa(entrada.getDespesa())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Despesa não encontrada"));
+            transacao.setDespesa(despesa);
             transacaoRepository.save(transacao);
 
             TransacaoDTO retornoTransacao = new TransacaoDTO(transacao);

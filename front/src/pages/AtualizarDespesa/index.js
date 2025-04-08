@@ -15,7 +15,7 @@ export default function AtualizarDespesa() {
 
     const carregarDespesa = async () => {
         try {
-            const response = await axios.get(`http://localhost:3001/despesa/${id}`);
+            const response = await axios.get(`http://localhost:8080/tipo_despesa/listarUm/${id}`);
             console.log("Resposta da API:", response.data); 
             setCadastro(response.data);
         } catch (error) {
@@ -26,7 +26,7 @@ export default function AtualizarDespesa() {
 
     const atualizarSubmit = async () => {
         try {
-            await axios.put(`http://localhost:3001/despesa/${id}`, cadastro);
+            await axios.put(`http://localhost:8080/tipo_despesa/${id}`, cadastro);
             navigate("/despesas");
             alert("Despesa atualizada com sucesso");
         } catch (error) {

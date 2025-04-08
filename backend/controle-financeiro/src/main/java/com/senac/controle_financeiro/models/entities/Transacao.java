@@ -15,8 +15,9 @@ public class Transacao {
     private Double valor;
     @Column
     private String estabelecimento;
-    @Column
-    private String tipoDespesa;
+    @ManyToOne
+    @JoinColumn
+    private TipoDespesa despesa;
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

@@ -16,7 +16,7 @@ export default function Despesas() {
             .then(response => {console.log("Resposta do backend:", response.data);
                 const dadosFormatados = response.data.map(item => ({
                     id: item.id,
-                    nome: item.nome
+                    despesa: item.despesa
                 }));
                 setDados(dadosFormatados);
             })
@@ -35,7 +35,7 @@ export default function Despesas() {
         );
 
         try {
-            axios.delete(`http://localhost:3001/despesa/${id}`);
+            axios.delete(`http://localhost:8080/tipo_despesa/deletar/${id}`);
         } catch (error) {
             alert("Não foi possível deletar o registro")
         }
@@ -46,7 +46,7 @@ export default function Despesas() {
             <h1 className="md-12 mt-3 text-center fw-bold">Lista de Despesas</h1>
             <Tabela
                 colunas={[
-                    { key: "nome", label: "Despesa" },
+                    { key: "despesa", label: "Despesa" },
                     { key: "ações", label: "Ações" }
                 ]}
                 dados={dados}
