@@ -2,25 +2,27 @@ package com.senac.controle_financeiro.controllers;
 
 import com.senac.controle_financeiro.dto.LoginDTO;
 import com.senac.controle_financeiro.dto.UsuarioDTO;
-import com.senac.controle_financeiro.models.entities.TipoDespesa;
 import com.senac.controle_financeiro.models.entities.Usuario;
 import com.senac.controle_financeiro.models.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
+@Tag(name = "Usuário",description = "Endereço responsável pelo controle de requisições do usuário")
 public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     @PostMapping
+    @Operation(summary = "Salvar usuário", description = "Método responsável por salvar um novo usuário")
     public ResponseEntity<?> salvar(@RequestBody Usuario usuario) {
 
         var retornoUsuario = usuarioRepository.save(usuario);
