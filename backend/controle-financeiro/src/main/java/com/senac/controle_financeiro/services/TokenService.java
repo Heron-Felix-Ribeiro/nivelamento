@@ -32,7 +32,7 @@ public class TokenService {
     @Autowired
     private TokenRepository tokenRepository;
 
-    public String gerarToken (LoginRequest loginRequest, Optional<Usuario> usuario) {
+    public String gerarToken (LoginRequest loginRequest) {
 
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -42,8 +42,6 @@ public class TokenService {
                     .withSubject(loginRequest.usuario())
                     .withExpiresAt(this.gerarDataExpiracao())
                     .sign(algorithm);
-
-            tokenRepository.save(new Token(token, usuario));
 
             return token;
 

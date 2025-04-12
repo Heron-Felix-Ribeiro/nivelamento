@@ -4,10 +4,12 @@ import com.senac.controle_financeiro.dto.LoginDTO;
 import com.senac.controle_financeiro.dto.UsuarioDTO;
 import com.senac.controle_financeiro.models.entities.Usuario;
 import com.senac.controle_financeiro.models.repository.UsuarioRepository;
+import com.senac.controle_financeiro.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @PostMapping
     @Operation(summary = "Salvar usuário", description = "Método responsável por salvar um novo usuário")
@@ -52,11 +57,13 @@ public class UsuarioController {
     }
 
     @GetMapping("/listar")
-    public List<Usuario> listar() {
+    public ResponseEntity<?> listar() {
 
-        var retornoUsuario = usuarioRepository.findAll();
+        var usuario = usuarioService.usuarioLogado();
 
-        return retornoUsuario;
+        var retornoUsuario = usuarioRepository.findByUsuarioIgnoreCase(String.valueOf(usuario));
+
+        return ResponseEntity.ok().body(retornoUsuario);
     }
 
     @GetMapping("/listar/{id}")
