@@ -8,6 +8,7 @@ import com.senac.controle_financeiro.services.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,10 +34,22 @@ public class AuthController {
     @Operation(summary = "Login do Usuário", description = "Login do usuário ")
     public ResponseEntity<?> login(LoginRequest loginRequest) throws Exception {
 
-            var retornoToken = tokenService.gerarToken(loginRequest);
+        Optional<Usuario> usuarioSalvo = usuarioRepository.findByUsuarioIgnoreCase(loginRequest.usuario());
 
-            return ResponseEntity.ok().body(retornoToken);
+        if (!usuarioSalvo.isEmpty()) {
 
+            boolean logado = usuarioSalvo.get().getSenha().equals(loginRequest.senha());
+
+            if (logado) {
+                var retornoToken = tokenService.gerarToken(loginRequest);
+
+                return ResponseEntity.ok().body(retornoToken);
+            }
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senha Inválida");
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário Inválido");
     }
 
 }

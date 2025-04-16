@@ -61,9 +61,7 @@ public class UsuarioController {
 
         var usuario = usuarioService.usuarioLogado();
 
-        var retornoUsuario = usuarioRepository.findByUsuarioIgnoreCase(String.valueOf(usuario));
-
-        return ResponseEntity.ok().body(retornoUsuario);
+        return ResponseEntity.ok().body(usuario);
     }
 
     @GetMapping("/listar/{id}")

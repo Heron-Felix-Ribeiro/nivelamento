@@ -17,7 +17,7 @@ export default function Login() {
         e.preventDefault();
 
         try {
-            const responseAxios = await axios.post("http://localhost:8080/usuario/login",
+            const responseAxios = await axios.post("http://localhost:8080/auth",
                 {
                     usuario: usuarioInformado,
                     senha: senha
@@ -29,7 +29,6 @@ export default function Login() {
             if (responseAxios.status === 200) {
 
                 const usuario = responseAxios.data;
-                console.log(data)
                 login({ ...usuario, logado: true });
                 navigate("/");
 
