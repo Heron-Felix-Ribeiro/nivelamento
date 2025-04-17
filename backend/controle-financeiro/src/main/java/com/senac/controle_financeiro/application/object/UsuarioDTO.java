@@ -1,6 +1,6 @@
 package com.senac.controle_financeiro.dto;
 
-import com.senac.controle_financeiro.models.entities.Usuario;
+import com.senac.controle_financeiro.domain.entities.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 

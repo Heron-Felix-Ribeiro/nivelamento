@@ -1,13 +1,12 @@
 package com.senac.controle_financeiro.configuration;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.senac.controle_financeiro.services.TokenService;
+import com.senac.controle_financeiro.application.services.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
