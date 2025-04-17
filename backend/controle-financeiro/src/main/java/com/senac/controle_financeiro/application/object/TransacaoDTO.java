@@ -1,4 +1,4 @@
-package com.senac.controle_financeiro.dto;
+package com.senac.controle_financeiro.application.object;
 
 import com.senac.controle_financeiro.domain.entities.Transacao;
 import lombok.Getter;

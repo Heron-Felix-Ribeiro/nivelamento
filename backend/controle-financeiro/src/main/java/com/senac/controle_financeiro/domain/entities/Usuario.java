@@ -1,6 +1,6 @@
-package com.senac.controle_financeiro.models.entities;
+package com.senac.controle_financeiro.domain.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.senac.controle_financeiro.application.object.usuario.UsuarioRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,4 +38,19 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<TipoDespesa> despesas;
 
+    public Usuario(UsuarioRequest entrada) {
+
+        this.id = entrada.id();
+        this.usuario = entrada.usuario();
+        this.salario = entrada.salario();
+        this.idade = entrada.idade();
+        this.senha = entrada.senha();
+        this.cep = entrada.cep();
+        this.estado = entrada.estado();
+        this.cidade = entrada.cidade();
+        this.bairro = entrada.bairro();
+        this.rua = entrada.rua();
+        this.numero = entrada.numero();
+
+    }
 }

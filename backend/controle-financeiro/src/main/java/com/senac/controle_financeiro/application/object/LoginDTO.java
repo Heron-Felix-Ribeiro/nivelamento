@@ -1,4 +1,4 @@
-package com.senac.controle_financeiro.dto;
+package com.senac.controle_financeiro.application.object;
 
 import lombok.Getter;
 import lombok.Setter;

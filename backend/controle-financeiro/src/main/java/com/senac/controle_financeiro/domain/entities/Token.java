@@ -1,4 +1,4 @@
-package com.senac.controle_financeiro.models.entities;
+package com.senac.controle_financeiro.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

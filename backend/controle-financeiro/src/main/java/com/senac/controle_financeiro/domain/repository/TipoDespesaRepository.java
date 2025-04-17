@@ -1,6 +1,6 @@
-package com.senac.controle_financeiro.models.repository;
+package com.senac.controle_financeiro.domain.repository;
 
-import com.senac.controle_financeiro.models.entities.TipoDespesa;
+import com.senac.controle_financeiro.domain.entities.TipoDespesa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

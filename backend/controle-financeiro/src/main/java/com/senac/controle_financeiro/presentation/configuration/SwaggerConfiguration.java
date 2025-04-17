@@ -1,4 +1,4 @@
-package com.senac.controle_financeiro.configuration;
+package com.senac.controle_financeiro.presentation.configuration;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

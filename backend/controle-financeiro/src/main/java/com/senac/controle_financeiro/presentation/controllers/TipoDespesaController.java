@@ -1,10 +1,10 @@
-package com.senac.controle_financeiro.controllers;
+package com.senac.controle_financeiro.presentation.controllers;
 
-import com.senac.controle_financeiro.dto.TipoDespesaDTO;
-import com.senac.controle_financeiro.models.entities.TipoDespesa;
-import com.senac.controle_financeiro.models.entities.Usuario;
-import com.senac.controle_financeiro.models.repository.TipoDespesaRepository;
-import com.senac.controle_financeiro.models.repository.UsuarioRepository;
+import com.senac.controle_financeiro.application.object.TipoDespesaDTO;
+import com.senac.controle_financeiro.domain.entities.TipoDespesa;
+import com.senac.controle_financeiro.domain.entities.Usuario;
+import com.senac.controle_financeiro.domain.repository.TipoDespesaRepository;
+import com.senac.controle_financeiro.domain.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

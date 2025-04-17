@@ -1,10 +1,9 @@
-package com.senac.controle_financeiro.controllers;
+package com.senac.controle_financeiro.presentation.controllers;
 
-import com.senac.controle_financeiro.models.entities.Usuario;
-import com.senac.controle_financeiro.models.repository.TokenRepository;
-import com.senac.controle_financeiro.models.repository.UsuarioRepository;
-import com.senac.controle_financeiro.object.LoginRequest;
-import com.senac.controle_financeiro.services.TokenService;
+import com.senac.controle_financeiro.domain.repository.TokenRepository;
+import com.senac.controle_financeiro.domain.repository.UsuarioRepository;
+import com.senac.controle_financeiro.application.object.usuario.LoginRequest;
+import com.senac.controle_financeiro.application.services.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -34,11 +31,11 @@ public class AuthController {
     @Operation(summary = "Login do Usuário", description = "Login do usuário ")
     public ResponseEntity<?> login(LoginRequest loginRequest) throws Exception {
 
-        Optional<Usuario> usuarioSalvo = usuarioRepository.findByUsuarioIgnoreCase(loginRequest.usuario());
+        var usuarioSalvo = usuarioRepository.findByUsuarioIgnoreCase(loginRequest.usuario()).orElse(null);
 
-        if (!usuarioSalvo.isEmpty()) {
+        if (usuarioSalvo != null) {
 
-            boolean logado = usuarioSalvo.get().getSenha().equals(loginRequest.senha());
+            boolean logado = usuarioSalvo.getSenha().equals(loginRequest.senha());
 
             if (logado) {
                 var retornoToken = tokenService.gerarToken(loginRequest);
