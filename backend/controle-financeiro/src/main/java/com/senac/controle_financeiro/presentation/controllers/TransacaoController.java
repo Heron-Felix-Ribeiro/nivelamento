@@ -1,6 +1,9 @@
 package com.senac.controle_financeiro.presentation.controllers;
 
 import com.senac.controle_financeiro.application.object.TransacaoDTO;
+import com.senac.controle_financeiro.application.object.transacao.TransacaoRequest;
+import com.senac.controle_financeiro.application.object.transacao.TransacaoResponse;
+import com.senac.controle_financeiro.application.services.TransacaoService;
 import com.senac.controle_financeiro.domain.entities.TipoDespesa;
 import com.senac.controle_financeiro.domain.entities.Transacao;
 import com.senac.controle_financeiro.domain.entities.Usuario;
@@ -22,42 +25,20 @@ import java.util.stream.Collectors;
 public class TransacaoController {
 
     @Autowired
-    private TransacaoRepository transacaoRepository;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private TipoDespesaRepository tipoDespesaRepository;
+    private TransacaoService transacaoService;
 
     @PostMapping
-    public ResponseEntity<?> salvar(@RequestBody TransacaoDTO entrada) {
+    public ResponseEntity<?> salvar(@RequestBody TransacaoRequest entrada) {
 
-        Usuario usuario = usuarioRepository.findById(entrada.getUsuario())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
-
-        TipoDespesa despesa = tipoDespesaRepository.findByDespesa(entrada.getDespesa())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Despesa não encontrada"));
-
-        Transacao transacao = new Transacao();
-        transacao.setValor(entrada.getValor());
-        transacao.setEstabelecimento(entrada.getEstabelecimento());
-        transacao.setDespesa(despesa);
-        transacao.setUsuario(usuario);
-
-        Transacao transacaoSalva = transacaoRepository.save(transacao);
-        TransacaoDTO retornoTransacao= new TransacaoDTO(transacaoSalva);
+        var retornoTransacao = transacaoService.criarTransacao(entrada);
 
         return ResponseEntity.ok().body(retornoTransacao);
     }
 
     @GetMapping("/listar/{id}")
-    public List<TransacaoDTO> listar(@PathVariable Long id) {
+    public List<TransacaoResponse> listar(@PathVariable Long id) {
 
-        List<TransacaoDTO> listaTransacoes = transacaoRepository.findByUsuarioId(id)
-                .stream()
-                .map(TransacaoDTO::new)
-                .collect(Collectors.toList());
+        List<TransacaoResponse> listaTransacoes = transacaoService.listarTodasTransacoes(id);
 
         return listaTransacoes;
 
@@ -66,42 +47,24 @@ public class TransacaoController {
     @GetMapping("/listarUm/{id}")
     public ResponseEntity<?> listarUm (@PathVariable Long id) {
 
-        var retornoTransacacao = transacaoRepository.findById(id);
+        var retornoTransacacao = transacaoService.listarTransacaoPorId(id);
 
         return ResponseEntity.ok().body(retornoTransacacao);
 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody TransacaoDTO entrada) {
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody TransacaoRequest entrada) {
 
-        Optional<Transacao> atualizacao = transacaoRepository.findById(id);
+         var atualizacao = transacaoService.transacaoEditada(entrada);
 
-        if (!atualizacao.isEmpty()) {
-
-            Transacao transacao = atualizacao.get();
-            transacao.setValor(entrada.getValor());
-            transacao.setEstabelecimento(entrada.getEstabelecimento());
-            TipoDespesa despesa = tipoDespesaRepository.findByDespesa(entrada.getDespesa())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Despesa não encontrada"));
-            transacao.setDespesa(despesa);
-            transacaoRepository.save(transacao);
-
-            TransacaoDTO retornoTransacao = new TransacaoDTO(transacao);
-
-            return ResponseEntity.ok().body(retornoTransacao);
-        }
-
-        return null;
+        return ResponseEntity.ok().body(atualizacao);
     }
 
     @DeleteMapping("/deletar/{id}")
     public void deletar(@PathVariable Long id) {
 
-        Optional<Transacao> existe = transacaoRepository.findById(id);
+        transacaoService.deletarTransacao(id);
 
-        if (!existe.isEmpty()) {
-            transacaoRepository.deleteById(id);
-        }
     }
 }

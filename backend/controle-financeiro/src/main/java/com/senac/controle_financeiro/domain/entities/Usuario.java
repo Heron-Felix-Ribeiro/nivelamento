@@ -38,6 +38,8 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<TipoDespesa> despesas;
 
+    public Usuario() {}
+
     public Usuario(UsuarioRequest entrada) {
 
         this.id = entrada.id();

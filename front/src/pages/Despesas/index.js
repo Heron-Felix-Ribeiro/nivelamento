@@ -4,6 +4,7 @@ import Tabela from "../../components/Tabela";
 import { useUsuarioContext } from "../../contexts/Usuario";
 import { useNavigate } from "react-router-dom";
 import BotaoExcluir from "../../components/BotaoDelete";
+import api from "../../axiosConfig";
 
 export default function Despesas() {
     const { usuario } = useUsuarioContext();
@@ -12,7 +13,7 @@ export default function Despesas() {
     console.log("ID do usuário:", usuario?.id);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/tipo_despesa/listar/${usuario.id}`)
+        api.get(`/tipo_despesa/listar/${usuario.id}`)
             .then(response => {console.log("Resposta do backend:", response.data);
                 const dadosFormatados = response.data.map(item => ({
                     id: item.id,

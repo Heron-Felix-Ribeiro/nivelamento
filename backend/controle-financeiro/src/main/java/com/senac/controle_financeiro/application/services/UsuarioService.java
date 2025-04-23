@@ -41,9 +41,48 @@ public class UsuarioService implements IUsuarioService {
 
         var usuarios = usuarioRepository.findAll();
 
-        
-
-        return null;
+        return usuarios.stream()
+                .map(usuario -> new UsuarioResponse(
+                        usuario.getUsuario(),
+                        usuario.getSalario(),
+                        usuario.getIdade()))
+                .toList();
     }
 
+    @Override
+    public UsuarioResponse usuarioEditado(UsuarioRequest entrada) {
+
+        var usuarioEncontrado = usuarioRepository.findById(entrada.id());
+
+        if (usuarioEncontrado.isPresent()) {
+            var usuario = usuarioEncontrado.get();
+            usuario.setId(entrada.id());
+            usuario.setUsuario(entrada.usuario());
+            usuario.setSalario(entrada.salario());
+            usuario.setIdade(entrada.idade());
+            usuarioRepository.save(usuario);
+
+            return new UsuarioResponse(
+                    usuario.getUsuario(),
+                    usuario.getSalario(),
+                    usuario.getIdade());
+        }
+
+        throw new RuntimeException("Erro ao encontrar o usuario");
+
+    }
+
+    @Override
+    public Long deletar(Long id) {
+        var usuario = usuarioRepository.findById(id);
+
+        if (usuario.isPresent()) {
+            usuarioRepository.deleteById(id);
+            return id;
+        }
+
+        throw new RuntimeException("Erro ao encontrar o usuario");
+    }
 }
+
+

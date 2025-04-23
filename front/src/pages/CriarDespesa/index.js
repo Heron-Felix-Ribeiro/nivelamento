@@ -3,6 +3,7 @@ import Formulario from "../../components/Formulario";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUsuarioContext } from "../../contexts/Usuario";
+import api from "../../axiosConfig";
 
 
 export default function CriarDespesa() {
@@ -18,7 +19,7 @@ export default function CriarDespesa() {
        
         try {
             console.log("Objeto enviado:", cadastro);
-            await axios.post("http://localhost:8080/tipo_despesa", cadastro);
+            await api.post("/tipo_despesa", cadastro);
             navigate("/despesas");
             alert("Tipo de Despesa criada com sucesso");
         } catch (error) {

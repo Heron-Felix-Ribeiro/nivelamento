@@ -1,6 +1,7 @@
 package com.senac.controle_financeiro.presentation.controllers;
 
 import com.senac.controle_financeiro.application.object.usuario.UsuarioRequest;
+import com.senac.controle_financeiro.application.object.usuario.UsuarioResponse;
 import com.senac.controle_financeiro.domain.entities.Usuario;
 import com.senac.controle_financeiro.application.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +28,7 @@ public class UsuarioController {
 
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/listarUm")
     public ResponseEntity<?> listar() {
 
         var usuario = usuarioService.usuarioLogado();
@@ -35,40 +36,28 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuario);
     }
 
-    @GetMapping("/listar/{id}")
-    public ResponseEntity<?> listarUm(@PathVariable Long id) {
+    @GetMapping("/listar")
+    public ResponseEntity<?> listarTodos() {
 
-        var retornoUsuario = usuarioService;
+        var retornoUsuario = usuarioService.listarTodos();
 
         return ResponseEntity.ok().body(retornoUsuario);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Usuario usuarioAtualizado) {
-//
-//        var atualizacao = usuarioRepository.findById(id)
-//                .orElse(null);
-//
-//        if (atualizacao != null) {
-//
-//            var retornoUsuario = usuarioRepository.save(usuarioAtualizado);
-//
-//            return ResponseEntity.ok().body(retornoUsuario);
-//        }
-//
-//        throw new RuntimeException("Informações do usuário não estão digitadas corretamente");
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody UsuarioRequest usuarioAtualizado) {
 
+        var atualizacao = usuarioService.usuarioEditado(usuarioAtualizado);
 
-//    @DeleteMapping("/deletar/{id}")
-//    public void deletar(@PathVariable Long id) {
-//
-//        var usuario = usuarioRepository.findById(id);
-//
-//        if (usuario != null) {
-//            usuarioRepository.deleteById(id);
-//        }
-//
-//    }
+        return ResponseEntity.ok().body(atualizacao);
+
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public void deletar(@PathVariable Long id) {
+
+        var usuario = usuarioService.deletar(id);
+
+    }
 
 }

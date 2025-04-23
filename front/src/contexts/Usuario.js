@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import api from "../axiosConfig";
 
 export const UsuarioContext = createContext();
 
@@ -9,6 +10,8 @@ export default function UsuarioProvider({ children }) {
     const [usuario, setUsuario] = useState({});
     const [transacoes, setTransacoes] = useState([]);
     const [saldo, setSaldo] = useState(0);
+
+    console.log("Usuario:", usuario);
 
     function login(usuarioLogin) {
         setUsuario(usuarioLogin);
@@ -24,9 +27,7 @@ export default function UsuarioProvider({ children }) {
         const fetchTransacoes = async () => {
             if (usuario?.id) {
                 try {
-                    const response = await axios.get(`http://localhost:8080/transacao/listar/${usuario.id}`);
-                    console.log("Transações carregadas (contexto):", response.data);
-                    console.log("Salário do Usuário:", usuario.salario);
+                    const response = await api.get(`/transacao/listar/${usuario.id}`);
                     setTransacoes(response.data);
                 } catch (error) {
                     console.error("Erro ao carregar transações:", error);

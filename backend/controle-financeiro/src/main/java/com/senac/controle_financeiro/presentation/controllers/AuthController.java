@@ -1,5 +1,6 @@
 package com.senac.controle_financeiro.presentation.controllers;
 
+import com.senac.controle_financeiro.application.object.usuario.LoginResponse;
 import com.senac.controle_financeiro.domain.repository.TokenRepository;
 import com.senac.controle_financeiro.domain.repository.UsuarioRepository;
 import com.senac.controle_financeiro.application.object.usuario.LoginRequest;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +31,7 @@ public class AuthController {
 
     @PostMapping
     @Operation(summary = "Login do Usuário", description = "Login do usuário ")
-    public ResponseEntity<?> login(LoginRequest loginRequest) throws Exception {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception {
 
         var usuarioSalvo = usuarioRepository.findByUsuarioIgnoreCase(loginRequest.usuario()).orElse(null);
 
@@ -38,9 +40,14 @@ public class AuthController {
             boolean logado = usuarioSalvo.getSenha().equals(loginRequest.senha());
 
             if (logado) {
+
                 var retornoToken = tokenService.gerarToken(loginRequest);
 
-                return ResponseEntity.ok().body(retornoToken);
+                return ResponseEntity.ok().body(new LoginResponse(
+                        usuarioSalvo.getId(),
+                        retornoToken,
+                        usuarioSalvo.getSalario()
+                ));
             }
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senha Inválida");

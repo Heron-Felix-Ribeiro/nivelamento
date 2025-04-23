@@ -3,6 +3,7 @@ package com.senac.controle_financeiro.presentation.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,12 +20,14 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
 
-        return http.csrf(AbstractHttpConfigurer :: disable)
+        return http
+                .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer :: disable)
                 .authorizeHttpRequests( auth -> auth
                         .requestMatchers("/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/webjars/**",
-                                "swagger-resources",
+                                "swagger-resources/**",
                                 "/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

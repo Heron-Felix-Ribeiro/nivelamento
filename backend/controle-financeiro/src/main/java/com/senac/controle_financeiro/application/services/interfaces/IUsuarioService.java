@@ -13,4 +13,8 @@ public interface IUsuarioService {
     Usuario salvar(UsuarioRequest entrada);
 
     List<UsuarioResponse> listarTodos ();
+
+    UsuarioResponse usuarioEditado (UsuarioRequest entrada);
+
+    Long deletar (Long id);
 }

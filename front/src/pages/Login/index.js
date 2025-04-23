@@ -1,9 +1,7 @@
 import { useState } from "react"
 import { data, Link, useNavigate } from "react-router-dom";
 import { UsuarioContext, useUsuarioContext } from "../../contexts/Usuario";
-import axios from "axios";
-import CadastroUsuario from "../CadastroUsuario";
-
+import api from "../../axiosConfig";
 
 export default function Login() {
 
@@ -16,15 +14,16 @@ export default function Login() {
 
         e.preventDefault();
 
+        
         try {
-            const responseAxios = await axios.post("http://localhost:8080/auth",
+            const responseAxios = await api.post("/auth",
                 {
                     usuario: usuarioInformado,
                     senha: senha
                 }
-            );
 
-            console.log("Resposta completa do backend:", responseAxios.data);
+                
+            );
 
             if (responseAxios.status === 200) {
 

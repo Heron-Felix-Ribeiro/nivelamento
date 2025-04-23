@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Formulario from "../../components/Formulario";
 import { useUsuarioContext } from "../../contexts/Usuario";
 import { data, useNavigate } from "react-router-dom";
+import api from "../../axiosConfig";
 
 export default function CriarTransacao() {
     const { usuario } = useUsuarioContext();
@@ -19,7 +20,7 @@ export default function CriarTransacao() {
 
         try {
             console.log("Dados do cadastro:", cadastro);
-            await axios.post("http://localhost:8080/transacao", cadastro);
+            await api.post("/transacao", cadastro);
             navigate("/transacoes");
             alert("Transação criada com sucesso");
         } catch (error) {

@@ -1,6 +1,9 @@
 package com.senac.controle_financeiro.presentation.controllers;
 
 import com.senac.controle_financeiro.application.object.TipoDespesaDTO;
+import com.senac.controle_financeiro.application.object.despesa.DespesaRequest;
+import com.senac.controle_financeiro.application.object.despesa.DespesaResponse;
+import com.senac.controle_financeiro.application.services.TipoDespesaService;
 import com.senac.controle_financeiro.domain.entities.TipoDespesa;
 import com.senac.controle_financeiro.domain.entities.Usuario;
 import com.senac.controle_financeiro.domain.repository.TipoDespesaRepository;
@@ -20,34 +23,20 @@ import java.util.stream.Collectors;
 public class TipoDespesaController {
 
     @Autowired
-    private TipoDespesaRepository tipoDespesaRepository;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private TipoDespesaService tipoDespesaService;
 
     @PostMapping
-    public ResponseEntity<?> salvar(@RequestBody TipoDespesaDTO entrada){
+    public ResponseEntity<?> salvar(@RequestBody DespesaRequest entrada){
 
-        Usuario usuario = usuarioRepository.findById(entrada.getUsuario())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
-
-        TipoDespesa tipoDespesa = new TipoDespesa();
-        tipoDespesa.setDespesa(entrada.getDespesa());
-        tipoDespesa.setUsuario(usuario);
-
-        TipoDespesa despesa = tipoDespesaRepository.save(tipoDespesa);
-        TipoDespesaDTO retornoDespesa = new TipoDespesaDTO(despesa);
+        var retornoDespesa = tipoDespesaService.salvar(entrada);
 
         return ResponseEntity.ok().body(retornoDespesa);
     }
 
     @GetMapping("/listar/{id}")
-    public List<TipoDespesaDTO> listar (@PathVariable Long id) {
+    public List<DespesaResponse> listar (@PathVariable Long id) {
 
-        List<TipoDespesaDTO> listaDespesas = tipoDespesaRepository.findByUsuarioId(id)
-                .stream()
-                .map(TipoDespesaDTO::new)
-                .collect(Collectors.toList());
+        var listaDespesas = tipoDespesaService.listarTodos(id);
 
         return listaDespesas;
     }
@@ -55,27 +44,16 @@ public class TipoDespesaController {
     @GetMapping("listarUm/{id}")
     public ResponseEntity<?> listarUm (@PathVariable Long id) {
 
-        var retornoDespesa = tipoDespesaRepository.findById(id);
+        var retorno = tipoDespesaService.listarPorId(id);
 
-        return ResponseEntity.ok().body(retornoDespesa);
+        return ResponseEntity.ok().body(retorno);
 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar (@PathVariable Long id, @RequestBody TipoDespesaDTO entrada){
+    public ResponseEntity<?> atualizar (@PathVariable Long id, @RequestBody DespesaRequest entrada){
 
-        Optional<TipoDespesa> atualizacao = tipoDespesaRepository.findById(id);
-
-        if (!atualizacao.isEmpty()){
-
-            TipoDespesa despesa = atualizacao.get();
-            despesa.setDespesa(entrada.getDespesa());
-            tipoDespesaRepository.save(despesa);
-
-            TipoDespesaDTO retornoDespesa = new TipoDespesaDTO(despesa);
-
-            return ResponseEntity.ok().body(retornoDespesa);
-        }
+        var atualizacao = tipoDespesaService.despesaEditada(entrada);
 
         return null;
     }
@@ -83,11 +61,7 @@ public class TipoDespesaController {
     @DeleteMapping("/deletar/{id}")
     public void deletar (@PathVariable Long id) {
 
-        Optional<TipoDespesa> existe = tipoDespesaRepository.findById(id);
-
-        if (!existe.isEmpty()){
-            tipoDespesaRepository.deleteById(id);
-        }
+        tipoDespesaService.deletar(id);
 
     }
 }

@@ -62,7 +62,7 @@ public class TokenService {
     public Instant gerarDataExpiracao () {
 
         return LocalDateTime.now()
-                .plusMinutes(expirationTime)
+                .plusDays(expirationTime)
                 .toInstant(ZoneOffset.of("-03:00"));
 
     }

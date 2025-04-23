@@ -1,5 +1,6 @@
 package com.senac.controle_financeiro.domain.entities;
 
+import com.senac.controle_financeiro.application.object.despesa.DespesaRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,5 +16,14 @@ public class TipoDespesa {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    public TipoDespesa() {}
+
+    public TipoDespesa(DespesaRequest entrada, Usuario usuario) {
+        this.id = entrada.id();
+        this.despesa = entrada.despesa();
+        this.usuario = usuario;
+    }
+
 
 }
