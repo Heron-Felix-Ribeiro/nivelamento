@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 public record UsuarioRequest(
         Long id,
         String usuario,
+        String cpf,
         Double salario,
         Integer idade,
         String senha,

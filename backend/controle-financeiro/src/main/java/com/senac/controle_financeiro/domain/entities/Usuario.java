@@ -1,6 +1,7 @@
 package com.senac.controle_financeiro.domain.entities;
 
 import com.senac.controle_financeiro.application.object.usuario.UsuarioRequest;
+import com.senac.controle_financeiro.domain.valueObjects.CPF;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,8 @@ public class Usuario {
     private Long id;
     @Column
     private String usuario;
+    @Embedded
+    private CPF cpf;
     @Column
     private Double salario;
     @Column
@@ -44,6 +47,7 @@ public class Usuario {
 
         this.id = entrada.id();
         this.usuario = entrada.usuario();
+        this.cpf = new CPF(entrada.cpf());
         this.salario = entrada.salario();
         this.idade = entrada.idade();
         this.senha = entrada.senha();
@@ -55,4 +59,6 @@ public class Usuario {
         this.numero = entrada.numero();
 
     }
+
+
 }
