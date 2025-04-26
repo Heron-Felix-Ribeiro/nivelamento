@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { useUsuarioContext } from "../../contexts/Usuario"
 import { useNavigate } from "react-router-dom";
 import BotaoExcluir from "../../components/BotaoDelete";
-import api from "../../axiosConfig";
 
 
 export default function Transacoes() {
@@ -13,7 +12,7 @@ export default function Transacoes() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        api.get(`/transacao/listar/${usuario.id}`)
+        axios.get(`/transacao/listar/${usuario.id}`)
             .then(response => {
                 const dadosFormatados = response.data.map(item => ({
                     id: item.id,

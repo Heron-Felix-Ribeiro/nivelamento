@@ -22,13 +22,11 @@ public class UsuarioController {
     @Operation(summary = "Salvar usuário", description = "Método responsável por salvar um novo usuário")
     public ResponseEntity<?> salvar(@RequestBody UsuarioRequest usuarioRequest) {
 
-        try {
+
             var retornoUsuario = usuarioService.salvar(usuarioRequest);
 
             return ResponseEntity.ok().body(retornoUsuario);
-        } catch (Exception e){
 
-        }
 
     }
 

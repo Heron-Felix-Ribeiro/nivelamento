@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Formulario from "../../components/Formulario";
 import { useUsuarioContext } from "../../contexts/Usuario";
 import { data, useNavigate, useParams } from "react-router-dom";
-import api from "../../axiosConfig";
 
 export default function AtualizarTransacao() {
     const { usuario } = useUsuarioContext();
@@ -19,7 +18,7 @@ export default function AtualizarTransacao() {
 
     const carregarTransacao = async () => {
         try {
-            const response = await api.get(`/transacao/listarUm/${id}`);
+            const response = await axios.get(`/transacao/listarUm/${id}`);
             console.log("Resposta da API:", response.data);
             setCadastro(response.data); 
         } catch (error) {

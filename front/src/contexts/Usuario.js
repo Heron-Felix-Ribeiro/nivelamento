@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import api from "../axiosConfig";
 
 export const UsuarioContext = createContext();
 
@@ -27,7 +26,7 @@ export default function UsuarioProvider({ children }) {
         const fetchTransacoes = async () => {
             if (usuario?.id) {
                 try {
-                    const response = await api.get(`/transacao/listar/${usuario.id}`);
+                    const response = await axios.get(`/transacao/listar/${usuario.id}`);
                     setTransacoes(response.data);
                 } catch (error) {
                     console.error("Erro ao carregar transações:", error);

@@ -1,14 +1,17 @@
 import { useState } from "react"
 import { data, Link, useNavigate } from "react-router-dom";
 import { UsuarioContext, useUsuarioContext } from "../../contexts/Usuario";
-import api from "../../axiosConfig";
+import { authService } from "../../service/authService";
+import {setToken} from '../../redux/authSlice'
+import { useDispatch } from 'react-redux';
 
 export default function Login() {
 
     const [usuarioInformado, setUsuarios] = useState("");
     const [senha, setSenha] = useState("");
-    const { login } = useUsuarioContext(UsuarioContext);
     const navigate = useNavigate();
+
+    const dispatch = useDispatch; 
 
     const loginSubmit = async (e) => {
 
@@ -16,19 +19,15 @@ export default function Login() {
 
         
         try {
-            const responseAxios = await api.post("/auth",
-                {
-                    usuario: usuarioInformado,
-                    senha: senha
-                }
+            const responseAxios = await authService.login({usuario: usuarioInformado, senha: senha})
+            
 
-                
-            );
+            if (responseAxios.length > 0 ) {
 
-            if (responseAxios.status === 200) {
+                dispatch(setToken({usuario: usuarioInformado, token: responseAxios, logado: true}))
 
                 const usuario = responseAxios.data;
-                login({ ...usuario, logado: true });
+                
                 navigate("/");
 
             } else {

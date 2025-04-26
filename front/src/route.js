@@ -8,26 +8,19 @@ import Despesas from "./pages/Despesas";
 import Login from "./pages/Login";
 import CriarTransacao from "./pages/CriarTransacao";
 import CriarDespesa from "./pages/CriarDespesa";
-import UsuarioLogadoProvider, { UsuarioContext } from "./contexts/Usuario"
-import { useContext } from "react";
 import CadastroUsuario from "./pages/CadastroUsuario";
 import AtualizarTransacao from "./pages/AtualizarTransacao";
 import AtualizarDespesa from "./pages/AtualizarDespesa";
+import { Provider, useSelector } from "react-redux";
+import store from './redux/store'
 
 function PrivateRoute({ children }) {
-    const usuario = useContext(UsuarioContext);
+    const token = useSelector(state=> state.auth.token)
 
-    if (!usuario["usuario"]?.logado) {
-
-        return (
-            <Navigate to="/login" replace />
-        )
-
+        return token? children : <Navigate to="/login" replace />
 
     }
 
-    return children;
-}
 
 function ProtectedLayout({children}) {
 
@@ -49,7 +42,7 @@ export default function AppRoute() {
 
     return (
         <BrowserRouter>
-            <UsuarioLogadoProvider>
+            <Provider store={store}>
 
                 <Routes>
                     
@@ -80,7 +73,7 @@ export default function AppRoute() {
 
                 </Routes>
 
-            </UsuarioLogadoProvider>
+            </Provider>
         </BrowserRouter>
     )
 }
