@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import Formulario from "../../components/Formulario";
 import { useNavigate } from "react-router-dom";
+import {usuarioService} from "../../service/UsuarioService";
 
 
 
@@ -22,7 +23,7 @@ export default function CadastroUsuario() {
 
     const cadastroSubmit = async () => {
         try {
-            await axios.post("/usuario", cadastro);
+            await usuarioService.cadastro( cadastro);
             navigate("/login");
             alert("Conta criada com sucesso");
         } catch (error) {

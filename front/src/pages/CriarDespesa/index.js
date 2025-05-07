@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useUsuarioContext } from "../../contexts/Usuario";
 import axios from "axios";
-
+import {despesaService} from "../../service/DespesaService";
 
 export default function CriarDespesa() {
     const { usuario } = useUsuarioContext(); 
@@ -14,12 +14,10 @@ export default function CriarDespesa() {
     });
     const navigate = useNavigate();
 
-    console.log(usuario)
     const cadastroSubmit = async () => {
        
         try {
-            console.log("Objeto enviado:", cadastro);
-            await axios.post("/tipo_despesa", cadastro);
+            await despesaService.cadastro(cadastro);
             navigate("/despesas");
             alert("Tipo de Despesa criada com sucesso");
         } catch (error) {

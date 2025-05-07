@@ -1,5 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Menu from "./pages/Menu";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Transacoes from "./pages/Transacoes";
@@ -13,17 +12,20 @@ import AtualizarTransacao from "./pages/AtualizarTransacao";
 import AtualizarDespesa from "./pages/AtualizarDespesa";
 import { Provider, useSelector } from "react-redux";
 import store from './redux/store'
+import Home from "./pages/Home";
 
 function PrivateRoute({ children }) {
-    const token = useSelector(state => state.auth.token)
+    const token = useSelector(state => state.auth.token);
+    const location = useLocation(); 
 
-        return token? children : <Navigate to="/login" replace />
-
+    if (!token && location.pathname !== "/auth") {
+        return <Navigate to="/auth" replace />;
     }
 
+    return children;
+}
 
-function ProtectedLayout({children}) {
-
+function ProtectedLayout({ children }) {
     return (
         <>
             <Header />
@@ -39,14 +41,13 @@ function ProtectedLayout({children}) {
 }
 
 export default function AppRoute() {
-
     return (
-        <BrowserRouter>
-            <Provider store={store}>
+        <Provider store={store}>
+            <BrowserRouter>
 
                 <Routes>
-                    
-                    <Route path="/login" element={<Login />}></Route>
+
+                    <Route path="/auth" element={<Login />}></Route>
                     <Route path="/cadastrar" element={<CadastroUsuario />}></Route>
 
                     <Route path="/*"
@@ -56,7 +57,7 @@ export default function AppRoute() {
                                 <ProtectedLayout>
                                     <Routes>
 
-                                        <Route path="/" element={<Menu />}></Route>
+                                        <Route path="/" element={<Home />}></Route>
                                         <Route path="/transacoes" element={<Transacoes />}></Route>
                                         <Route path="/despesas" element={<Despesas />}></Route>
                                         <Route path="/criar_transacao" element={<CriarTransacao />}></Route>
@@ -70,10 +71,8 @@ export default function AppRoute() {
 
                         }
                     />
-
                 </Routes>
-
-            </Provider>
-        </BrowserRouter>
+            </BrowserRouter>
+        </Provider>
     )
 }

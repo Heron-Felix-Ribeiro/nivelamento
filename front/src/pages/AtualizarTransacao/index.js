@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import Formulario from "../../components/Formulario";
 import { useUsuarioContext } from "../../contexts/Usuario";
 import { data, useNavigate, useParams } from "react-router-dom";
+import {useSelector} from "react-redux";
+import {transacaoService} from "../../service/TransacaoService";
+import {despesaService} from "../../service/DespesaService";
 
 export default function AtualizarTransacao() {
-    const { usuario } = useUsuarioContext();
     const [cadastro, setCadastro] = useState({
-        usuarioId: usuario.id,
+        usuarioId: useSelector(state => state.auth.id),
         valor: "",
         despesa: "",
         estabelecimento: ""
@@ -18,8 +20,7 @@ export default function AtualizarTransacao() {
 
     const carregarTransacao = async () => {
         try {
-            const response = await axios.get(`/transacao/listarUm/${id}`);
-            console.log("Resposta da API:", response.data);
+            const response = await transacaoService.listarUm(id);
             setCadastro(response.data); 
         } catch (error) {
             alert("Não foi possível carregar a transação");
@@ -28,7 +29,7 @@ export default function AtualizarTransacao() {
 
     const carregarTiposDespesa = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/tipo_despesa/listar/${usuario.id}`);
+            const response = await despesaService(cadastro.usuarioId);
             setTiposDespesa(response.data);
         } catch (error) {
             alert("Não foi possível carregar os tipos de despesa");
@@ -37,7 +38,7 @@ export default function AtualizarTransacao() {
 
     const atualizarSubmit = async () => {
         try {
-            await axios.put(`http://localhost:8080/transacao/${id}`, cadastro);
+            await transacaoService.editar(id, cadastro);
             navigate("/transacoes");
             alert("Transação atualizada com sucesso");
         } catch (error) {

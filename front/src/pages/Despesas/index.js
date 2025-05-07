@@ -1,20 +1,20 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Tabela from "../../components/Tabela";
-import { useUsuarioContext } from "../../contexts/Usuario";
 import { useNavigate } from "react-router-dom";
 import BotaoExcluir from "../../components/BotaoDelete";
+import {useSelector} from "react-redux";
+import {despesaService} from "../../service/DespesaService";
 
 
 export default function Despesas() {
-    const { usuario } = useUsuarioContext();
+    const usuario = useSelector((state => state.auth.id));
     const [dados, setDados] = useState([]);
     const navigate = useNavigate();
     console.log("ID do usuário:", usuario?.id);
 
     useEffect(() => {
-        axios.get(`/tipo_despesa/listar/${usuario.id}`)
-            .then(response => {console.log("Resposta do backend:", response.data);
+        despesaService.listar(usuario)
+            .then(response => {
                 const dadosFormatados = response.data.map(item => ({
                     id: item.id,
                     despesa: item.despesa
@@ -36,7 +36,7 @@ export default function Despesas() {
         );
 
         try {
-            axios.delete(`http://localhost:8080/tipo_despesa/deletar/${id}`);
+            despesaService.deletar(id);
         } catch (error) {
             alert("Não foi possível deletar o registro")
         }

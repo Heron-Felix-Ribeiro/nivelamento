@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import Formulario from "../../components/Formulario";
 import { useUsuarioContext } from "../../contexts/Usuario";
 import { data, useNavigate } from "react-router-dom";
+import {transacaoService} from "../../service/TransacaoService";
+import {useSelector} from "react-redux";
+import {despesaService} from "../../service/DespesaService";
 
 export default function CriarTransacao() {
-    const { usuario } = useUsuarioContext();
+
     const [cadastro, setCadastro] = useState({
-        usuario: usuario.id,
+        usuario: useSelector(state => state.auth.id),
         valor: "",
         despesa: "",
         estabelecimento: ""
@@ -18,8 +21,7 @@ export default function CriarTransacao() {
     const cadastroSubmit = async () => {
 
         try {
-            console.log("Dados do cadastro:", cadastro);
-            await axios.post("/transacao", cadastro);
+            await transacaoService.cadastro(cadastro);
             navigate("/transacoes");
             alert("Transação criada com sucesso");
         } catch (error) {
@@ -31,8 +33,8 @@ export default function CriarTransacao() {
     const carregarTiposDespesa = async() => {
 
         try{
-            const respose = await axios.get(`http://localhost:8080/tipo_despesa/listar/${usuario.id}`);
-            console.log(respose)
+
+            const respose = await despesaService.listar(cadastro.usuario);
             setTipoDespesa(respose.data);
         } catch (error) {
             alert("Não foi possível carregar os tipos de despesa"); 

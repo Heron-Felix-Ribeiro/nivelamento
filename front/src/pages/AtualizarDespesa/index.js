@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import Formulario from "../../components/Formulario";
 import { useUsuarioContext } from "../../contexts/Usuario";
 import { useNavigate, useParams } from "react-router-dom";
+import {despesaService} from "../../service/DespesaService";
+import {useSelector} from "react-redux";
 
 export default function AtualizarDespesa() {
     const { usuario } = useUsuarioContext(); 
     const [cadastro, setCadastro] = useState({
-        usuarioId: usuario.id,
+        usuarioId: useSelector(state => state.auth.id),
         despesa: ""
     });
     const navigate = useNavigate();
@@ -15,22 +17,19 @@ export default function AtualizarDespesa() {
 
     const carregarDespesa = async () => {
         try {
-            const response = await axios.get(`/tipo_despesa/listarUm/${id}`);
-            console.log("Resposta da API:", response.data); 
+            const response = await despesaService.listarUm(id);
             setCadastro(response.data);
         } catch (error) {
-            console.error("Erro ao carregar a despesa:", error);
             alert("Não foi possível carregar a despesa");
         }
     };
 
     const atualizarSubmit = async () => {
         try {
-            await axios.put(`http://localhost:8080/tipo_despesa/${id}`, cadastro);
+            await despesaService.editar(id, cadastro);
             navigate("/despesas");
             alert("Despesa atualizada com sucesso");
         } catch (error) {
-            console.error("Erro ao atualizar a despesa:", error);
             alert("Não foi possível atualizar a despesa");
         }
     };
