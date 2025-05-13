@@ -36,10 +36,6 @@ public class Usuario {
     private String rua;
     @Column
     private Integer numero;
-    @OneToMany(mappedBy = "usuario")
-    private List<Transacao> transacoes;
-    @OneToMany(mappedBy = "usuario")
-    private List<TipoDespesa> despesas;
 
     public Usuario() {}
 

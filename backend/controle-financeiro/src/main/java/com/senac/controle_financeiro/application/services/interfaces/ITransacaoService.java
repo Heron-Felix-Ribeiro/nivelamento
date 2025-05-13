@@ -15,6 +15,10 @@ public interface ITransacaoService {
 
     List<TransacaoResponse> listarTodasTransacoes(Long id);
 
+    Double totalTransacoes(Long id);
+
+    List<TransacaoResponse> maioresTransacoes(Long id);
+
     TranscacaoEditResponse transacaoEditada (TransacaoRequest transacaoRequest);
 
     Long deletarTransacao(Long id);

@@ -55,6 +55,10 @@ public class TransacaoService implements ITransacaoService {
 
         var transcao = transacaoRepository.findById(id);
 
+        if (transcao.isEmpty()) {
+            throw new RuntimeException("Erro ao encontrar a transação");
+        }
+
         return new TransacaoResponse(
                 transcao.get().getId(),
                 transcao.get().getValor(),
@@ -70,7 +74,40 @@ public class TransacaoService implements ITransacaoService {
 
         var transacoes = transacaoRepository.findByUsuarioId(id);
 
+        if (transacoes.isEmpty()) {
+            throw new RuntimeException("Não há transações cadastradas");
+        }
+
         return transacoes.stream()
+                .map(transacao -> new TransacaoResponse(
+                        transacao.getId(),
+                        transacao.getValor(),
+                        transacao.getEstabelecimento(),
+                        transacao.getDespesa().getDespesa(),
+                        transacao.getUsuario().getId()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Double totalTransacoes(Long id) {
+        var transacoes = transacaoRepository.findByUsuarioId(id);
+
+        return transacoes.stream()
+                .mapToDouble(Transacao::getValor)
+                .sum();
+    }
+
+    @Override
+    public List<TransacaoResponse> maioresTransacoes(Long id) {
+        var transacoes = transacaoRepository.findByUsuarioId(id);
+
+        if (transacoes.isEmpty()) {
+            throw new RuntimeException("Não há transações cadastradas");
+        }
+
+        return transacoes.stream()
+                .sorted((t1, t2) -> Double.compare(t2.getValor(), t1.getValor()))
+                .limit(3)
                 .map(transacao -> new TransacaoResponse(
                         transacao.getId(),
                         transacao.getValor(),
@@ -113,6 +150,6 @@ public class TransacaoService implements ITransacaoService {
             transacaoRepository.deleteById(id);
             return id;
         }
-            throw new RuntimeException("Erro ao encontrar a transação");
+        throw new RuntimeException("Erro ao encontrar a transação");
     }
 }

@@ -1,11 +1,11 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 import axios from "axios";
 
 export const UsuarioContext = createContext();
 
 UsuarioContext.displayName = "Usuario";
 
-export default function UsuarioProvider({ children }) {
+export default function UsuarioProvider({children}) {
     const [usuario, setUsuario] = useState({});
     const [transacoes, setTransacoes] = useState([]);
     const [saldo, setSaldo] = useState(0);
@@ -33,20 +33,20 @@ export default function UsuarioProvider({ children }) {
                 }
             }
         };
-    
+
         fetchTransacoes();
     }, [usuario]);
-    
+
     useEffect(() => {
         const saldoInicial = usuario?.salario || 0;
         const totalTransacoes = transacoes.reduce((total, transacao) => {
-            return total + Number(transacao.valor); 
+            return total + Number(transacao.valor);
         }, 0);
         setSaldo(saldoInicial - totalTransacoes);
     }, [transacoes, usuario]);
 
     return (
-        <UsuarioContext.Provider value={{ usuario, login, logout, transacoes, saldo }}>
+        <UsuarioContext.Provider value={{usuario, login, logout, transacoes, saldo}}>
             {children}
         </UsuarioContext.Provider>
     );

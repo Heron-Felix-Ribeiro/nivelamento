@@ -1,8 +1,6 @@
 package com.senac.controle_financeiro.presentation.controllers;
 
 import com.senac.controle_financeiro.application.object.usuario.UsuarioRequest;
-import com.senac.controle_financeiro.application.object.usuario.UsuarioResponse;
-import com.senac.controle_financeiro.domain.entities.Usuario;
 import com.senac.controle_financeiro.application.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,42 +21,60 @@ public class UsuarioController {
     public ResponseEntity<?> salvar(@RequestBody UsuarioRequest usuarioRequest) {
 
 
-            var retornoUsuario = usuarioService.salvar(usuarioRequest);
+            try{
+                var retornoUsuario = usuarioService.salvar(usuarioRequest);
 
-            return ResponseEntity.ok().body(retornoUsuario);
-
+                return ResponseEntity.ok().body(retornoUsuario);
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body("Erro ao salvar o usuário: " + e.getMessage());
+            }
 
     }
 
     @GetMapping("/listarUm")
     public ResponseEntity<?> listar() {
 
-        var usuario = usuarioService.usuarioLogado();
-
-        return ResponseEntity.ok().body(usuario);
+        try {
+            var usuario = usuarioService.usuarioLogado();
+            return ResponseEntity.ok().body(usuario);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/listar")
     public ResponseEntity<?> listarTodos() {
 
-        var retornoUsuario = usuarioService.listarTodos();
+        try {
+            var retornoUsuario = usuarioService.listarTodos();
 
-        return ResponseEntity.ok().body(retornoUsuario);
+            return ResponseEntity.ok().body(retornoUsuario);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody UsuarioRequest usuarioAtualizado) {
 
-        var atualizacao = usuarioService.usuarioEditado(usuarioAtualizado);
-
-        return ResponseEntity.ok().body(atualizacao);
+        try {
+            var atualizacao = usuarioService.usuarioEditado(usuarioAtualizado);
+            return ResponseEntity.ok().body(atualizacao);
+        } catch (Exception e) {
+            return  ResponseEntity.badRequest().body(e.getMessage());
+        }
 
     }
 
     @DeleteMapping("/deletar/{id}")
-    public void deletar(@PathVariable Long id) {
+    public ResponseEntity<?> deletar(@PathVariable Long id) {
 
-        var usuario = usuarioService.deletar(id);
+        try {
+            var usuario = usuarioService.deletar(id);
+            return ResponseEntity.ok().body("Exclusão realizada com sucesso");
+        } catch (Exception e) {
+           return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
     }
 

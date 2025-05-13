@@ -1,6 +1,7 @@
 package com.senac.controle_financeiro.presentation.controllers;
 
 import com.senac.controle_financeiro.application.object.usuario.LoginResponse;
+import com.senac.controle_financeiro.application.services.AuthService;
 import com.senac.controle_financeiro.domain.repository.TokenRepository;
 import com.senac.controle_financeiro.domain.repository.UsuarioRepository;
 import com.senac.controle_financeiro.application.object.usuario.LoginRequest;
@@ -21,39 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private TokenRepository tokenRepository;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private AuthService authService;
 
     @PostMapping
     @Operation(summary = "Login do Usuário", description = "Login do usuário ")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception {
-
-        var usuarioSalvo = usuarioRepository.findByUsuarioIgnoreCase(loginRequest.usuario()).orElse(null);
-
-        if (usuarioSalvo != null) {
-
-            boolean logado = usuarioSalvo.getSenha().equals(loginRequest.senha());
-
-            if (logado) {
-
-                var retornoToken = tokenService.gerarToken(loginRequest);
-
-                return ResponseEntity.ok().body(new LoginResponse(
-                        usuarioSalvo.getId(),
-                        retornoToken,
-                        usuarioSalvo.getSalario()
-                ));
-            }
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senha Inválida");
+        try {
+            var resposta = authService.login(loginRequest);
+            return resposta;
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário Inválido");
     }
 
 }

@@ -17,9 +17,7 @@ public class Senha {
         }
 
         String senhaCriptografada = BCrypt.hashpw(senha, BCrypt.gensalt());
-
         this.senha = senhaCriptografada;
-
     }
 
     public Boolean isValid(String senha) {
@@ -27,7 +25,6 @@ public class Senha {
         if (senha.length() > 2) {
             return true;
         }
-
         return false;
     }
 
