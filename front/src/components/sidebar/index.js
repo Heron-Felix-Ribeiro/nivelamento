@@ -5,20 +5,8 @@ import {useState} from "react";
 
 export default function Sidebar() {
 
-    const [sideBarAberta, setSideBarAberta] = useState(false);
-    const alternar = () => {
-        setSideBarAberta(!sideBarAberta);
-    }
-
     return (
         <div className={`${styles.sidebar} d-flex flex-column vh-100 bg-dark`}>
-            <button
-                className="btn btn-light m-2"
-                onClick={alternar}
-                style={{alignSelf: "flex-end"}}
-            >
-                {sideBarAberta ? "Fechar" : "Abrir"}
-            </button>
 
             <div className="p-3 text-center">
                 <img src="https://www.mg.senac.br/programasenacdegratuidade/assets/img/senac_logo_branco.png"

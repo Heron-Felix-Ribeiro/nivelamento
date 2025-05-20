@@ -29,6 +29,7 @@ public class TipoDespesaService implements IDespesaService {
         var salvo = tipoDespesaRepository.save( new TipoDespesa(entrada, usuarioLogado));
 
         return new DespesaResponse(
+                salvo.getId(),
                 salvo.getDespesa()
         );
 
@@ -40,8 +41,8 @@ public class TipoDespesaService implements IDespesaService {
         var tipoDespesa = tipoDespesaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Erro ao encontrar o tipo de despesa"));
 
-
         return new DespesaResponse(
+                tipoDespesa.getId(),
                 tipoDespesa.getDespesa()
         );
     }
@@ -53,6 +54,7 @@ public class TipoDespesaService implements IDespesaService {
 
         return despesas.stream()
                 .map(despesa -> new DespesaResponse(
+                        despesa.getId(),
                         despesa.getDespesa()))
                 .toList();
     }
@@ -66,14 +68,14 @@ public class TipoDespesaService implements IDespesaService {
             var tipoDespesa = despesa.get();
             tipoDespesa.setId(entrada.id());
             tipoDespesa.setDespesa(entrada.despesa());
+            tipoDespesaRepository.save(tipoDespesa);
 
             return new DespesaResponse(
+                    tipoDespesa.getId(),
                     tipoDespesa.getDespesa());
 
         }
-
         throw new RuntimeException("Erro ao encontrar o tipo de despesa");
-
     }
 
     @Override
@@ -84,8 +86,6 @@ public class TipoDespesaService implements IDespesaService {
             tipoDespesaRepository.deleteById(id);
             return id;
         }
-
         throw new RuntimeException("Erro ao encontrar o tipo de despesa");
-
     }
 }

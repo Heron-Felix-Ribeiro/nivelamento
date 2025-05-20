@@ -44,19 +44,15 @@ export default function AppRoute() {
     return (
         <Provider store={store}>
             <BrowserRouter>
-
                 <Routes>
-
                     <Route path="/auth" element={<Login/>}></Route>
                     <Route path="/cadastrar" element={<CadastroUsuario/>}></Route>
 
                     <Route path="/*"
                            element={
-
                                <PrivateRoute>
                                    <ProtectedLayout>
                                        <Routes>
-
                                            <Route path="/" element={<Home/>}></Route>
                                            <Route path="/transacoes" element={<Transacoes/>}></Route>
                                            <Route path="/despesas" element={<Despesas/>}></Route>
@@ -65,11 +61,9 @@ export default function AppRoute() {
                                            <Route path="/atualizar_transacao/:id"
                                                   element={<AtualizarTransacao/>}></Route>
                                            <Route path="/atualizar_despesa/:id" element={<AtualizarDespesa/>}></Route>
-
                                        </Routes>
                                    </ProtectedLayout>
                                </PrivateRoute>
-
                            }
                     />
                 </Routes>

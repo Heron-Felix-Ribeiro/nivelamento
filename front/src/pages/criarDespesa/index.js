@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { useUsuarioContext } from "../../contexts/Usuario";
 import axios from "axios";
 import {despesaService} from "../../service/despesaService";
+import {useSelector} from "react-redux";
 
 export default function CriarDespesa() {
-    const { usuario } = useUsuarioContext(); 
     const [cadastro, setCadastro] = useState({
-        usuario: usuario.id,
+        usuario: useSelector((state) => state.auth.id),
         despesa: ""
     });
     const navigate = useNavigate();

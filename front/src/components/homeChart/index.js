@@ -1,50 +1,47 @@
-import React, {useEffect, useRef, useState} from "react";
-import { useSelector } from "react-redux";
-import {ArcElement, Chart, Legend, Tooltip} from "chart.js";
+import { useRef, useEffect } from "react";
+import { Chart, ArcElement, Legend, Tooltip, registerables } from "chart.js";
 
-Chart.register(ArcElement, Tooltip, Legend);
+Chart.register(ArcElement, Tooltip, Legend, ...registerables);
 
-export default function HomeChart({usuario, gastos, salario}) {
-    const chartRef = useRef(null);
+export default function HomeChart({ gastos, salario }) {
+    const chartGastos = useRef(null);
 
     useEffect(() => {
-        if (chartRef.current) {
-            const ctx = chartRef.current.getContext("2d");
+        if (chartGastos.current) {
+            const ctx = chartGastos.current.getContext("2d");
+
+            if (Chart.getChart(ctx)) {
+                Chart.getChart(ctx).destroy();
+            }
+
             new Chart(ctx, {
                 type: "pie",
                 data: {
                     labels: ["Gastos", "Disponível"],
                     datasets: [
-                        {
-                            data: [gastos, salario - gastos],
-                            backgroundColor: ["#FF6384", "#36A2EB"],
-                        },
-                    ],
+                        { data: [gastos, salario - gastos], backgroundColor: ["#FF6384", "#36A2EB"] }
+                    ]
                 },
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: {
-                            position: 'top',
-                        },
+                        legend: { position: 'top' },
                         tooltip: {
                             callbacks: {
-                                label: (context) => {
-                                    const valor = context.raw;
-                                    return `${context.label}: R$ ${valor.toFixed(2)}`;
-                                },
-                            },
-                        },
-                    },
-                },
+                                label: context => `${context.label}: R$ ${context.raw.toFixed(2)}`
+                            }
+                        }
+                    }
+                }
             });
         }
-    }, [salario, gastos]);
+    }, [gastos, salario]);
 
     return (
-        <div>
-            <h2>Seu resumo financeiro {usuario}</h2>
-            <canvas ref={chartRef}></canvas>
+        <div className={"container mt-3"}>
+                <div className={"col-md-6"}>
+                    <canvas ref={chartGastos}></canvas>
+                </div>
         </div>
-    )
+    );
 }

@@ -8,8 +8,9 @@ import {transacaoService} from "../../service/transacaoService";
 import {despesaService} from "../../service/despesaService";
 
 export default function AtualizarTransacao() {
+    const usuario  = useSelector((state) => state.auth.id);
     const [cadastro, setCadastro] = useState({
-        usuarioId: useSelector(state => state.auth.id),
+        usuarioId: usuario,
         valor: "",
         despesa: "",
         estabelecimento: ""
@@ -21,7 +22,8 @@ export default function AtualizarTransacao() {
     const carregarTransacao = async () => {
         try {
             const response = await transacaoService.listarUm(id);
-            setCadastro(response.data); 
+            console.log(response);
+            setCadastro(response.data);
         } catch (error) {
             alert("Não foi possível carregar a transação");
         }
@@ -29,7 +31,7 @@ export default function AtualizarTransacao() {
 
     const carregarTiposDespesa = async () => {
         try {
-            const response = await despesaService(cadastro.usuarioId);
+            const response = await despesaService.listar(usuario);
             setTiposDespesa(response.data);
         } catch (error) {
             alert("Não foi possível carregar os tipos de despesa");
@@ -38,7 +40,7 @@ export default function AtualizarTransacao() {
 
     const atualizarSubmit = async () => {
         try {
-            await transacaoService.editar(id, cadastro);
+            await transacaoService.editar(usuario, cadastro);
             navigate("/transacoes");
             alert("Transação atualizada com sucesso");
         } catch (error) {

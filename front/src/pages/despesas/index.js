@@ -7,14 +7,14 @@ import {despesaService} from "../../service/despesaService";
 
 
 export default function Despesas() {
-    const usuario = useSelector((state => state.auth.id));
+    const usuario = useSelector((state) => state.auth.id);
     const [dados, setDados] = useState([]);
     const navigate = useNavigate();
-    console.log("ID do usuário:", usuario?.id);
 
     useEffect(() => {
         despesaService.listar(usuario)
             .then(response => {
+                console.log(response);
                 const dadosFormatados = response.data.map(item => ({
                     id: item.id,
                     despesa: item.despesa

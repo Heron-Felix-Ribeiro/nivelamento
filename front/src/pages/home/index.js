@@ -7,7 +7,7 @@ import HomeChart from "../../components/homeChart";
 export default function Home() {
     const usuario = useSelector((state) => state.auth.usuario);
     const id = useSelector((state) => state.auth.id);
-    const {total, setTotal} = useState(null);
+    const [total, setTotal] = useState(null);
     const salario = useSelector((state) => state.auth.salario);
 
     useEffect(() => {
@@ -21,14 +21,18 @@ export default function Home() {
             });
     })
 
+    useEffect(() => {
+        if (!id) return;
+
+        transacaoService.totalTransacoes(id)
+            .then((response) => setTotal(response.data))
+            .catch((error) => alert(error.message));
+    }, [id]);
+
     return(
         <div>
-            <h1 className="text-center"></h1>
-            <HomeChart
-                usuario={usuario}
-                gastos={total}
-                salario={salario}
-            />
+            <h1 className="text-center">Bem-vindo, {usuario}</h1>
+            {total !== null && <HomeChart gastos={total} salario={salario} />}
         </div>
     )
 

@@ -7,9 +7,9 @@ import {despesaService} from "../../service/despesaService";
 import {useSelector} from "react-redux";
 
 export default function AtualizarDespesa() {
-    const { usuario } = useUsuarioContext(); 
+    const usuario  = useSelector((state) => state.auth.id);
     const [cadastro, setCadastro] = useState({
-        usuarioId: useSelector(state => state.auth.id),
+        usuarioId: usuario,
         despesa: ""
     });
     const navigate = useNavigate();
@@ -17,6 +17,7 @@ export default function AtualizarDespesa() {
 
     const carregarDespesa = async () => {
         try {
+            console.log(id)
             const response = await despesaService.listarUm(id);
             setCadastro(response.data);
         } catch (error) {
@@ -26,6 +27,7 @@ export default function AtualizarDespesa() {
 
     const atualizarSubmit = async () => {
         try {
+            console.log(cadastro);
             await despesaService.editar(id, cadastro);
             navigate("/despesas");
             alert("Despesa atualizada com sucesso");

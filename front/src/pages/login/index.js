@@ -24,7 +24,7 @@ export default function Login() {
                     usuario: usuarioInformado,
                     token: responseAxios.token,
                     logado: true,
-                    id: responseAxios.id,
+                    id: responseAxios.id ,
                     salario: responseAxios.salario}))
                 navigate("/");
 
