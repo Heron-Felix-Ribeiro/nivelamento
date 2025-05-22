@@ -2,12 +2,21 @@ package com.senac.controle_financeiro.domain.valueObjects;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import java.util.regex.Pattern;
+
 public class Senha {
+
+    private static final String SENHA_REGEX = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
+    private static final Pattern PATTERN = Pattern.compile(SENHA_REGEX);
 
     private final String senha;
 
     public Senha() {
         this.senha = "";
+    }
+
+    public String getSenha() {
+        return senha;
     }
 
     public Senha(String senha) {
@@ -16,16 +25,11 @@ public class Senha {
             throw new IllegalArgumentException("Senha não cumpre as normas de criação");
         }
 
-        String senhaCriptografada = BCrypt.hashpw(senha, BCrypt.gensalt());
-        this.senha = senhaCriptografada;
+        this.senha = BCrypt.hashpw(senha, BCrypt.gensalt());
     }
 
     public Boolean isValid(String senha) {
-        // Mudar futuramente para um minimo de oito caractéres
-        if (senha.length() > 2) {
-            return true;
-        }
-        return false;
+        return senha != null && PATTERN.matcher(senha).matches();
     }
 
 }

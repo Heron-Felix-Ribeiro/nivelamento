@@ -6,6 +6,7 @@ public record UsuarioRequest(
         Long id,
         String usuario,
         String cpf,
+        String email,
         Double salario,
         Integer idade,
         String senha,

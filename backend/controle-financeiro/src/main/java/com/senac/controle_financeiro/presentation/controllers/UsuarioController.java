@@ -19,21 +19,16 @@ public class UsuarioController {
     @PostMapping
     @Operation(summary = "Salvar usuário", description = "Método responsável por salvar um novo usuário")
     public ResponseEntity<?> salvar(@RequestBody UsuarioRequest usuarioRequest) {
-
-
             try{
                 var retornoUsuario = usuarioService.salvar(usuarioRequest);
-
                 return ResponseEntity.ok().body(retornoUsuario);
             } catch (Exception e) {
                 return ResponseEntity.badRequest().body("Erro ao salvar o usuário: " + e.getMessage());
             }
-
     }
 
     @GetMapping("/listarUm")
     public ResponseEntity<?> listar() {
-
         try {
             var usuario = usuarioService.usuarioLogado();
             return ResponseEntity.ok().body(usuario);
@@ -44,10 +39,8 @@ public class UsuarioController {
 
     @GetMapping("/listar")
     public ResponseEntity<?> listarTodos() {
-
         try {
             var retornoUsuario = usuarioService.listarTodos();
-
             return ResponseEntity.ok().body(retornoUsuario);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -56,7 +49,6 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody UsuarioRequest usuarioAtualizado) {
-
         try {
             var atualizacao = usuarioService.usuarioEditado(usuarioAtualizado);
             return ResponseEntity.ok().body(atualizacao);
@@ -68,7 +60,6 @@ public class UsuarioController {
 
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<?> deletar(@PathVariable Long id) {
-
         try {
             var usuario = usuarioService.deletar(id);
             return ResponseEntity.ok().body("Exclusão realizada com sucesso");
