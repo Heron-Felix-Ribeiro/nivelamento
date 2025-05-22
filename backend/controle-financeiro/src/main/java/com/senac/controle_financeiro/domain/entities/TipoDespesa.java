@@ -11,7 +11,6 @@ public class TipoDespesa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
     private String despesa;
     @ManyToOne
     @JoinColumn(name = "usuario_id")

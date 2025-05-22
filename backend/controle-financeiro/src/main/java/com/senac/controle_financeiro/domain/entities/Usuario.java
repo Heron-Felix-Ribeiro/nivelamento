@@ -31,6 +31,7 @@ public class Usuario {
     private String bairro;
     private String rua;
     private Integer numero;
+    private Boolean ativo;
 
     public Usuario() {}
 
