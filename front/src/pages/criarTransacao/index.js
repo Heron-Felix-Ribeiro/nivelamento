@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Formulario from "../../components/formulario";
-import { useUsuarioContext } from "../../contexts/Usuario";
-import { data, useNavigate } from "react-router-dom";
+import {useUsuarioContext} from "../../contexts/Usuario";
+import {data, useNavigate} from "react-router-dom";
 import {transacaoService} from "../../service/transacaoService";
 import {useSelector} from "react-redux";
 import {despesaService} from "../../service/despesaService";
@@ -10,11 +10,12 @@ import {despesaService} from "../../service/despesaService";
 export default function CriarTransacao() {
 
     const [cadastro, setCadastro] = useState({
-        usuario: useSelector(state => state.auth.id),
         valor: "",
         despesa: "",
-        estabelecimento: ""
-    })
+        descricao: "",
+        cnpj: useSelector(state => state.auth.cnpj),
+        responsavel: useSelector(state => state.info.usuario)
+    });
     const [tiposDespesa, setTipoDespesa] = useState([])
     const navigate = useNavigate();
 
@@ -30,20 +31,17 @@ export default function CriarTransacao() {
 
     }
 
-    const carregarTiposDespesa = async() => {
-
-        try{
-
-            const respose = await despesaService.listar(cadastro.usuario);
+    const carregarTiposDespesa = async () => {
+        try {
+            const respose = await despesaService.listar(cadastro.cnpj);
             setTipoDespesa(respose.data);
         } catch (error) {
-            alert("Não foi possível carregar os tipos de despesa"); 
+            alert("Não foi possível carregar os tipos de despesa");
         }
-
     }
 
     useEffect(() => {
-        carregarTiposDespesa(); 
+        carregarTiposDespesa();
     }, []);
 
     const handleMudarCampo = (campo, valor) => {
@@ -65,17 +63,18 @@ export default function CriarTransacao() {
                             type: "number",
                             required: true
                         },
-                        { 
-                            name: "estabelecimento", 
-                            label: "Estabelecimento", 
-                            type: "text", 
-                            required: true },
-                        { 
-                            name: "despesa", 
-                            label: "Tipo Despesa", 
+                        {
+                            name: "estabelecimento",
+                            label: "Prestador de Serviço",
+                            type: "text",
+                            required: true
+                        },
+                        {
+                            name: "despesa",
+                            label: "Tipo Despesa",
                             type: "select",
-                            options: tiposDespesa.map(despesa => despesa.despesa),  
-                            required: false 
+                            options: tiposDespesa.map(despesa => despesa.despesa),
+                            required: false
                         }
                     ]}
                     valores={cadastro}
@@ -83,6 +82,11 @@ export default function CriarTransacao() {
                     aoMudarCampo={handleMudarCampo}
                     aoEnviar={cadastroSubmit}
                 />
+                <div className="d-flex justify-content-center">
+                    <button type="button" className="btn btn-primary btn-lg mt-3" onClick={cadastroSubmit}>
+                        Enviar
+                    </button>
+                </div>
             </div>
         </div>
     );

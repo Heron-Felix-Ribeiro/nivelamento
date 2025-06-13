@@ -7,14 +7,13 @@ import {despesaService} from "../../service/despesaService";
 
 
 export default function Despesas() {
-    const usuario = useSelector((state) => state.auth.id);
+    const cnpj = useSelector((state) => state.auth.cnpj);
     const [dados, setDados] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        despesaService.listar(usuario)
+        despesaService.listar(cnpj)
             .then(response => {
-                console.log(response);
                 const dadosFormatados = response.data.map(item => ({
                     id: item.id,
                     despesa: item.despesa
@@ -24,7 +23,7 @@ export default function Despesas() {
             .catch(error => {
                 console.error("Não foi possível carregar tipos de despesa:", error);
             });
-    }, [usuario]);
+    }, [cnpj]);
 
     const handleEditar = (id) => {
         navigate(`/atualizar_despesa/${id}`);
@@ -34,7 +33,6 @@ export default function Despesas() {
         setDados((dadosAnteriores) =>
             dadosAnteriores.filter((item) => item.id !== id)
         );
-
         try {
             despesaService.deletar(id);
         } catch (error) {

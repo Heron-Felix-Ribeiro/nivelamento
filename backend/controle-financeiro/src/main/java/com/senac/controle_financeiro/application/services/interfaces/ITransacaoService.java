@@ -6,6 +6,7 @@ import com.senac.controle_financeiro.application.object.transacao.TransacaoRespo
 import com.senac.controle_financeiro.application.object.transacao.TranscacaoEditResponse;
 
 import java.util.List;
+import java.util.Stack;
 
 public interface ITransacaoService {
 
@@ -13,11 +14,11 @@ public interface ITransacaoService {
 
     TransacaoResponse listarTransacaoPorId(Long id);
 
-    List<TransacaoResponse> listarTodasTransacoes(Long id);
+    List<TransacaoResponse> listarTodasTransacoes(String  cnpj);
 
-    Double totalTransacoes(Long id);
+    Double totalTransacoes(String cnpj);
 
-    List<TransacaoResponse> maioresTransacoes(Long id);
+    Stack<TransacaoResponse> maioresTransacoes(String cnpj);
 
     TranscacaoEditResponse transacaoEditada (TransacaoRequest transacaoRequest);
 

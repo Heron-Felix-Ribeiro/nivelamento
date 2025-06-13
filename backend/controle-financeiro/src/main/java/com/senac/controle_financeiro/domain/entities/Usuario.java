@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Getter @Setter @Entity @Table(name = "usuario")
 public class Usuario {
@@ -18,37 +18,31 @@ public class Usuario {
     private Long id;
     private String usuario;
     @Embedded
+    @Column (unique = true)
     private CPF cpf;
     @Embedded
+    @Column (unique = true)
     private Email email;
-    private Double salario;
-    private Integer idade;
+    private LocalDate dataNascimento;
     @Embedded
     private Senha senha;
-    private String cep;
-    private String estado;
-    private String cidade;
-    private String bairro;
-    private String rua;
-    private Integer numero;
-    private Boolean ativo;
+    private Boolean estaAtivo;
+    @ManyToOne
+    @JoinColumn (name = "empresa_id")
+    private Empresa empresa;
+    private Boolean admin;
 
     public Usuario() {}
 
-    public Usuario(UsuarioRequest entrada) {
+    public Usuario(UsuarioRequest entrada, Empresa empresa) {
         this.id = entrada.id();
         this.usuario = entrada.usuario();
         this.cpf = new CPF(entrada.cpf());
         this.email = new Email(entrada.email());
-        this.salario = entrada.salario();
-        this.idade = entrada.idade();
+        this.dataNascimento = entrada.idade();
         this.senha = new Senha(entrada.senha());
-        this.cep = entrada.cep();
-        this.estado = entrada.estado();
-        this.cidade = entrada.cidade();
-        this.bairro = entrada.bairro();
-        this.rua = entrada.rua();
-        this.numero = entrada.numero();
+        this.estaAtivo = true;
+        this.empresa = empresa;
     }
 
 

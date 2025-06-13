@@ -21,11 +21,15 @@ public class Senha {
 
     public Senha(String senha) {
 
-        if (isValid(senha)) {
+        if (!isValid(senha)) {
             throw new IllegalArgumentException("Senha não cumpre as normas de criação");
         }
 
         this.senha = BCrypt.hashpw(senha, BCrypt.gensalt());
+    }
+
+    public static boolean verificarSenha(String senha, String  senhaCriptografada) {
+        return BCrypt.checkpw(senha, senhaCriptografada);
     }
 
     public Boolean isValid(String senha) {

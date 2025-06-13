@@ -8,13 +8,17 @@ import java.util.List;
 
 public interface IUsuarioService {
 
-    UsuarioResponse usuarioLogado ();
+    UsuarioResponse listarUm(Long id);
 
     Usuario salvar(UsuarioRequest entrada);
 
-    List<UsuarioResponse> listarTodos ();
+    List<UsuarioResponse> listarTodosAtivos();
+
+    List<UsuarioResponse> listarTodosInativos();
+
+    Integer contarUsuariosAtivos();
 
     UsuarioResponse usuarioEditado (UsuarioRequest entrada);
 
-    Long deletar (Long id);
+    Void mudarStatus (Long id);
 }

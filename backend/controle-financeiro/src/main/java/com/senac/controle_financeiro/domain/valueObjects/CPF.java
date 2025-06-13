@@ -7,7 +7,7 @@ public class CPF {
     private final String cpf;
 
     public CPF(String cpf) {
-        if (cpf == null || isValid(cpf)){
+        if (cpf == null || !isValid(cpf)){
             throw new IllegalArgumentException("CPF Inválido");
         }
         this.cpf = cpf;

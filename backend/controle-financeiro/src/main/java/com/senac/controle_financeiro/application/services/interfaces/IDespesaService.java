@@ -12,7 +12,7 @@ public interface IDespesaService {
 
     DespesaResponse listarPorId(Long id);
 
-    List<DespesaResponse> listarTodos(Long id);
+    List<DespesaResponse> listarTodos(String cnpj);
 
     DespesaResponse despesaEditada(DespesaRequest entrada);
 

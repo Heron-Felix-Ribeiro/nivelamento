@@ -2,13 +2,17 @@ package com.senac.controle_financeiro.application.services;
 
 import com.senac.controle_financeiro.application.object.usuario.LoginRequest;
 import com.senac.controle_financeiro.application.object.usuario.LoginResponse;
+import com.senac.controle_financeiro.application.services.interfaces.IAuthService;
+import com.senac.controle_financeiro.domain.repository.EmpresaRepository;
 import com.senac.controle_financeiro.domain.repository.UsuarioRepository;
+import com.senac.controle_financeiro.domain.valueObjects.Email;
+import com.senac.controle_financeiro.domain.valueObjects.Senha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthService {
+public class AuthService implements IAuthService {
 
     @Autowired
     private TokenService tokenService;
@@ -16,26 +20,43 @@ public class AuthService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public ResponseEntity<?> login (LoginRequest loginRequest) throws Exception {
-        var usuarioSalvo = usuarioRepository.findByUsuarioIgnoreCase(loginRequest.usuario()).orElse(null);
+    @Autowired
+    private EmpresaRepository empresaRepository;
+
+    @Override
+    public ResponseEntity<?> login(LoginRequest loginRequest) throws Exception {
+        var usuarioSalvo = usuarioRepository.findByEmail(new Email(loginRequest.usuario())).orElse(null);
 
         if (usuarioSalvo != null) {
-
-            boolean logado = usuarioSalvo.getSenha().equals(loginRequest.senha());
-
+            boolean logado = Senha.verificarSenha(loginRequest.senha(), usuarioSalvo.getSenha().getSenha());
             if (logado) {
+                var retornoToken = tokenService.gerarToken(loginRequest, usuarioSalvo);
 
-                var retornoToken = tokenService.gerarToken(loginRequest);
+                String cnpj = usuarioSalvo.getEmpresa() != null && usuarioSalvo.getEmpresa().getCnpj() != null
+                        ? usuarioSalvo.getEmpresa().getCnpj().getCnpj() : "";
+
+                Double verba = usuarioSalvo.getEmpresa() != null && usuarioSalvo.getEmpresa().getVerba() != null
+                        ? usuarioSalvo.getEmpresa().getVerba() : 0;
 
                 return ResponseEntity.ok().body(new LoginResponse(
-                        usuarioSalvo.getId(),
+                        cnpj,
                         retornoToken,
-                        usuarioSalvo.getSalario()
+                        usuarioSalvo.getUsuario(),
+                        verba
                 ));
             }
-
             throw new RuntimeException("Senha incorreta");
         }
         throw new RuntimeException("Usuário não encontrado");
     }
+
+    @Override
+    public Boolean adminLogado(String subject) {
+        var usuarioLogado = usuarioRepository.findByEmail(new Email(subject))
+                .orElseThrow(() -> new RuntimeException("Erro ao encontrar o usuario"));
+
+        return usuarioLogado.getAdmin();
+    }
 }
+
+

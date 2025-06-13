@@ -20,7 +20,7 @@ public class Token {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    public Token(String token, Optional<Usuario> usuario) {
+    public Token(String token, Usuario usuario) {
     }
 
 }

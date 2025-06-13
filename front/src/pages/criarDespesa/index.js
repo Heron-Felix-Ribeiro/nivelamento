@@ -8,14 +8,15 @@ import {despesaService} from "../../service/despesaService";
 import {useSelector} from "react-redux";
 
 export default function CriarDespesa() {
+    const cnpj = useSelector((state) => state.auth.cnpj);
     const [cadastro, setCadastro] = useState({
-        usuario: useSelector((state) => state.auth.id),
-        despesa: ""
+        usuario: useSelector((state) => state.info.usuario),
+        despesa: "",
+        cnpj: cnpj
     });
     const navigate = useNavigate();
 
     const cadastroSubmit = async () => {
-       
         try {
             await despesaService.cadastro(cadastro);
             navigate("/despesas");
@@ -23,7 +24,6 @@ export default function CriarDespesa() {
         } catch (error) {
             alert("Não foi possível cadastrar o tipo de despesa");
         }
-
     }
 
     const handleMudarCampo = (campo, valor) => {
@@ -51,6 +51,11 @@ export default function CriarDespesa() {
                     aoMudarCampo={handleMudarCampo}
                     aoEnviar={cadastroSubmit}
                 />
+                <div className="d-flex justify-content-center">
+                    <button type="button" className="btn btn-primary btn-lg mt-3" onClick={cadastroSubmit}>
+                        Enviar
+                    </button>
+                </div>
             </div>
         </div>
     );

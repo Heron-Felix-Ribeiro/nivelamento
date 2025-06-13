@@ -13,13 +13,27 @@ import AtualizarDespesa from "./pages/atualizarDespesa";
 import {Provider, useSelector} from "react-redux";
 import store from './redux/store'
 import Home from "./pages/home";
+import Dashboard from "./pages/admin";
+import Empresa from "./pages/empresa";
+import Inativos from "./pages/inativos";
+import EditarUsuario from "./pages/atualizarUsuario";
+import EditarEmpresa from "./pages/atualizarEmpresa";
 
 function PrivateRoute({children}) {
     const token = useSelector(state => state.auth.token);
     const location = useLocation();
+    const cnpj = useSelector(state => state.auth.cnpj);
 
     if (!token && location.pathname !== "/auth") {
-        return <Navigate to="/auth" replace/>;
+        return <Navigate to="/auth" replace />;
+    }
+
+    if (!cnpj && location.pathname === "/") {
+        return <Navigate to="/dashboard" replace />;
+    }
+
+    if (cnpj && (location.pathname === "/dashboard" || location.pathname === "/empresa" || location.pathname === "/inativos"))  {
+        return <Navigate to="/" replace />;
     }
 
     return children;
@@ -61,6 +75,11 @@ export default function AppRoute() {
                                            <Route path="/atualizar_transacao/:id"
                                                   element={<AtualizarTransacao/>}></Route>
                                            <Route path="/atualizar_despesa/:id" element={<AtualizarDespesa/>}></Route>
+                                           <Route path="/dashboard" element={<Dashboard/>}></Route>
+                                           <Route path="/empresa" element={<Empresa/>}></Route>
+                                           <Route path="/inativos" element={<Inativos/>}></Route>
+                                           <Route path="/atualizar_usuario/:id" element={<EditarUsuario/>}></Route>
+                                           <Route path="/atualizar_empresa/:id" element={<EditarEmpresa/>}></Route>
                                        </Routes>
                                    </ProtectedLayout>
                                </PrivateRoute>
@@ -69,5 +88,5 @@ export default function AppRoute() {
                 </Routes>
             </BrowserRouter>
         </Provider>
-    )
+    );
 }

@@ -8,9 +8,9 @@ const cadastro = async (cadastroRequest) => {
 
 }
 
-const listar = async (id) => {
+const listar = async (cnpj) => {
 
-    const res = await api.get(`/tipo_despesa/listar/${id}`)
+    const res = await api.get(`/tipo_despesa/listar/${cnpj}`)
 
     return res
 

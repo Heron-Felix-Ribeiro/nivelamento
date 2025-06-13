@@ -1,18 +1,18 @@
 import Tabela from "../../components/tabela"
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react"
+import {useNavigate} from "react-router-dom";
 import BotaoExcluir from "../../components/botaoDelete";
 import {transacaoService} from "../../service/transacaoService";
 import {useSelector} from "react-redux";
 
 
 export default function Transacoes() {
-    const usuario = useSelector((state) => state.auth.id);
+    const cnpj = useSelector((state) => state.auth.cnpj);
     const [dados, setDados] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        transacaoService.listar(usuario)
+        transacaoService.listar(cnpj)
             .then(response => {
                 const dadosFormatados = response.data.map(item => ({
                     id: item.id,
@@ -22,7 +22,7 @@ export default function Transacoes() {
                 }))
                 setDados(dadosFormatados);
             });
-    }, [usuario]);
+    }, [cnpj]);
 
     const handleEditar = (id) => {
         navigate(`/atualizar_transacao/${id}`);
@@ -46,10 +46,10 @@ export default function Transacoes() {
             <h1 className="md-12 mt-3 text-center fw-bold"> Página de transações</h1>
             <Tabela
                 colunas={[
-                    { key: "valor", label: "Valor" },
-                    { key: "estabelecimento", label: "Estabelecimento" },
-                    { key: "despesa", label: "Despesa" },
-                    { key: "ações", label: "Ações" }
+                    {key: "valor", label: "Valor"},
+                    {key: "estabelecimento", label: "Estabelecimento"},
+                    {key: "despesa", label: "Despesa"},
+                    {key: "ações", label: "Ações"}
                 ]}
                 dados={dados}
                 renderAcoes={(item) => (
@@ -60,7 +60,7 @@ export default function Transacoes() {
                         >
                             Editar
                         </button>
-                        <BotaoExcluir id={item.id} aoExcluir={handleExcluir} />
+                        <BotaoExcluir id={item.id} aoExcluir={handleExcluir}/>
                     </>
                 )}
             />

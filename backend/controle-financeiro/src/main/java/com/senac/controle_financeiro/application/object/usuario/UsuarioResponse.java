@@ -1,4 +1,6 @@
 package com.senac.controle_financeiro.application.object.usuario;
 
-public record UsuarioResponse(String usuario, Double salario, Integer idade) {
+import java.time.LocalDate;
+
+public record UsuarioResponse(Long id,String usuario, String empresa, String email) {
 }

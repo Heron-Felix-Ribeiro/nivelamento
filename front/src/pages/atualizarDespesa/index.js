@@ -27,7 +27,6 @@ export default function AtualizarDespesa() {
 
     const atualizarSubmit = async () => {
         try {
-            console.log(cadastro);
             await despesaService.editar(id, cadastro);
             navigate("/despesas");
             alert("Despesa atualizada com sucesso");
@@ -65,6 +64,11 @@ export default function AtualizarDespesa() {
                     aoMudarCampo={handleMudarCampo}
                     aoEnviar={atualizarSubmit}
                 />
+                <div className="d-flex justify-content-center">
+                    <button className="btn btn-success btn-lg" onClick={atualizarSubmit}>
+                        Enviar
+                    </button>
+                </div>
             </div>
         </div>
     );

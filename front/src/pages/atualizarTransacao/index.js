@@ -8,9 +8,9 @@ import {transacaoService} from "../../service/transacaoService";
 import {despesaService} from "../../service/despesaService";
 
 export default function AtualizarTransacao() {
-    const usuario  = useSelector((state) => state.auth.id);
+    const cnpj = useSelector((state) => state.auth.cnpj);
     const [cadastro, setCadastro] = useState({
-        usuarioId: usuario,
+        usuario: "",
         valor: "",
         despesa: "",
         estabelecimento: ""
@@ -22,7 +22,6 @@ export default function AtualizarTransacao() {
     const carregarTransacao = async () => {
         try {
             const response = await transacaoService.listarUm(id);
-            console.log(response);
             setCadastro(response.data);
         } catch (error) {
             alert("Não foi possível carregar a transação");
@@ -31,7 +30,7 @@ export default function AtualizarTransacao() {
 
     const carregarTiposDespesa = async () => {
         try {
-            const response = await despesaService.listar(usuario);
+            const response = await despesaService.listar(cnpj);
             setTiposDespesa(response.data);
         } catch (error) {
             alert("Não foi possível carregar os tipos de despesa");
@@ -40,7 +39,7 @@ export default function AtualizarTransacao() {
 
     const atualizarSubmit = async () => {
         try {
-            await transacaoService.editar(usuario, cadastro);
+            await transacaoService.editar(id, cadastro);
             navigate("/transacoes");
             alert("Transação atualizada com sucesso");
         } catch (error) {
@@ -91,6 +90,11 @@ export default function AtualizarTransacao() {
                     aoMudarCampo={handleMudarCampo}
                     aoEnviar={atualizarSubmit}
                 />
+                <div className="d-flex justify-content-center">
+                    <button className="btn btn-success btn-lg" onClick={atualizarSubmit}>
+                        Enviar
+                    </button>
+                </div>
             </div>
         </div>
     );

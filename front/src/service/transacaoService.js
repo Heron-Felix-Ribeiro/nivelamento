@@ -8,9 +8,9 @@ const cadastro = async (cadastroRequest) => {
 
 }
 
-const listar = async (id) => {
+const listar = async (cnpj) => {
 
-    const res = await api.get(`/transacao/listar/${id}`)
+    const res = await api.get(`/transacao/listar/${cnpj}`)
 
     return res;
 
@@ -24,12 +24,19 @@ const listarUm = async (id) => {
 
 }
 
-const totalTransacoes = async (id) => {
+const totalTransacoes = async (cnpj) => {
 
-    const res = await api.get(`/transacao/total/${id}`)
+    const res = await api.get(`/transacao/total/${cnpj}`)
 
     return res;
 
+}
+
+const maioresTranscoes = async (cnpj) => {
+
+    const res = await api.get(`/transacao/maior/${cnpj}`)
+
+    return res;
 }
 
 const editar = async (id, transacaoRequest) => {
@@ -46,4 +53,4 @@ const deletar = async (id) => {
     return res;
 }
 
-export const transacaoService = {cadastro, listar, listarUm , totalTransacoes,editar, deletar };
+export const transacaoService = {cadastro, listar, listarUm, maioresTranscoes , totalTransacoes,editar, deletar };

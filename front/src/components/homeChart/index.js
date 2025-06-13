@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
-import { Chart, ArcElement, Legend, Tooltip, registerables } from "chart.js";
+import { Chart, ArcElement, Tooltip, registerables } from "chart.js";
 
-Chart.register(ArcElement, Tooltip, Legend, ...registerables);
+Chart.register(ArcElement, Tooltip, ...registerables);
 
 export default function HomeChart({ gastos, salario }) {
     const chartGastos = useRef(null);
@@ -25,7 +25,7 @@ export default function HomeChart({ gastos, salario }) {
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: 'top' },
+                        legend: { display: false },
                         tooltip: {
                             callbacks: {
                                 label: context => `${context.label}: R$ ${context.raw.toFixed(2)}`
@@ -39,9 +39,9 @@ export default function HomeChart({ gastos, salario }) {
 
     return (
         <div className={"container mt-3"}>
-                <div className={"col-md-6"}>
-                    <canvas ref={chartGastos}></canvas>
-                </div>
+            <div className={"col-md-6"}>
+                <canvas ref={chartGastos}></canvas>
+            </div>
         </div>
     );
 }

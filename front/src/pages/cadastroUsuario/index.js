@@ -1,35 +1,32 @@
-import { useState } from "react";
+import {useState} from "react";
 import axios from "axios";
 import Formulario from "../../components/formulario";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {usuarioService} from "../../service/usuarioService";
-
-
+import {empresaService} from "../../service/empresaService";
 
 export default function CadastroUsuario() {
+    const [tipoCadastro, setTipoCadastro] = useState("usuario");
     const [cadastro, setCadastro] = useState({
         usuario: "",
-        idade: "",
-        cep: "",
-        estado: "",
-        cidade: "",
-        bairro: "",
-        rua: "",
-        numero: "",
-        salario: "",
-        senha: ""
+        dataNascimento: "",
+        senha: "",
+        cnpj: "",
     })
+    const [erro, setErro] = useState(null);
     const navigate = useNavigate();
+
 
     const cadastroSubmit = async () => {
         try {
-            await usuarioService.cadastro( cadastro);
+            await usuarioService.cadastro(cadastro);
+
             navigate("/login");
             alert("Conta criada com sucesso");
-        } catch (error) {
-            alert("Não foi possível cadastrar o seu usuário");
+        } catch (err) {
+            const errorMessage = err.response?.data?.messages || 'Não foi possível criar o agente'
+            console.error("Erro ao cadastrar:", errorMessage);
         }
-
     }
 
     const handleMudarCampo = (field, value) => {
@@ -39,59 +36,39 @@ export default function CadastroUsuario() {
         }));
     };
 
-
-    const cepChange = async (cep) => {
-        if (cep.length === 8) {
-            try {
-                const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-                const endereco = response.data;
-                setCadastro((prevCadastro) => ({
-                    ...prevCadastro,
-                    cep: cep,
-                    estado: endereco.uf,
-                    cidade: endereco.localidade,
-                    bairro: endereco.bairro,
-                    rua: endereco.logradouro
-                }));
-            } catch (error) {
-                console.error("Erro ao buscar CEP:", error);
-            }
-        } else {
-            setCadastro((prevCadastro) => ({
-                ...prevCadastro,
-                cep: cep
-            }));
-        }
-    
-    };
+    const camposUsuario = [
+        {name: "usuario", label: "Nome", type: "text", required: true},
+        {name: "idade", label: "Data Nascimento", type: "date", required: true},
+        {name: "cpf", label: "CPF", type: "text", required: true, mask: "000.000.000-00"},
+        {name: "email", label: "E-mail", type: "email", required: true},
+        {name: "cnpj", label: "CNPJ", type: "text", required: true, mask: "00.000.000/0000-00"},
+        {name: "senha", label: "Senha", type: "password", required: true}
+    ]
 
     return (
-        <div className="container bg-dark text-light">
-            <h1 className="text-center">Cadastro Usuário</h1>
-            <div>
-                <Formulario
-                    campos={[
-                        { name: "usuario", label: "Usuario", type: "text", required: true },
-                        { name: "idade", label: "Idade", type: "text", required: true },
-                        { name: "cep", label: "CEP", type: "text", required: true },
-                        { name: "estado", label: "Estado", type: "text", required: true, readOnly: true },
-                        { name: "cidade", label: "Cidade", type: "text", required: true, readOnly: true },
-                        { name: "bairro", label: "Bairro", type: "text", required: true, readOnly: true },
-                        { name: "rua", label: "Rua", type: "text", required: true, readOnly: true },
-                        { name: "numero", label: "Número", type: "text", required: false },
-                        { name: "salario", label: "Salário", type: "number", required: true},
-                        { name: "senha", label: "Senha", type: "password", required: true }
-                    ]}                
-                    valores={cadastro}
-                    aoMudarCampo={(field, value) => {
-                        handleMudarCampo(field, value);
-                        if (field === "cep") {
-                            cepChange(value); 
-                        }
-                    }}
-                    botaoTexto="Cadastrar"
-                    aoEnviar={cadastroSubmit}
-                />
+        <div className="d-flex justify-content-center align-items-center" style={{
+            backgroundImage: "url('https://br.freepik.com/fotos-gratis/belo-conceito-de-criptomoeda_22126353.htm#fromView=search&page=1&position=42&uuid=aff52d91-ab3e-4138-8330-9f66704dfa6f&query=finan%C3%A7as')",
+            backgroundSize: "cover",
+            backgroundPosition: "center"
+        }}
+        >
+            <div className="container bg-dark text-light shadow-lg rounded p-4 mt-5 mb-5" style={{maxWidth: "700px"}}>
+                <div className="text-center mb-4">
+                    <h1 className="fw-bold">Cadastro</h1>
+                </div>
+                <div className="mb-4">
+                    <h2 className="fw-bold">Dados</h2>
+                    <Formulario
+                        campos={camposUsuario}
+                        valores={cadastro}
+                        aoMudarCampo={(field, value) => handleMudarCampo(field, value)}
+                    />
+                </div>
+                <div className="d-flex justify-content-center">
+                    <button className="btn btn-success btn-lg" onClick={cadastroSubmit}>
+                        Cadastrar
+                    </button>
+                </div>
             </div>
         </div>
     );

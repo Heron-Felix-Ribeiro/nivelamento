@@ -1,7 +1,7 @@
 export default function Tabela({colunas, dados, renderAcoes}) {
     return (
         <div className="text-white">
-            <table className="table table-striped table-dark">
+            <table className="table table-striped table-dark table-bordered">
                 <thead>
                 <tr>
                     {colunas.map((coluna) => (
